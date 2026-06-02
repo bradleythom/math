@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Imperium - Latin Table Mastery</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --bg: #09090d;
+      --bg-gradient: radial-gradient(circle at 50% 50%, #12121c 0%, #060609 100%);
+      --card-bg: rgba(22, 22, 33, 0.65);
+      --card-border: rgba(212, 175, 55, 0.2);
+      --card-border-hover: rgba(212, 175, 55, 0.5);
+      
+      /* Colors */
+      --gold: #d4af37;
+      --gold-dark: #aa8515;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --gold-light: #f3e5ab;
+      
+      --crimson: #e63946;
+      --crimson-glow: rgba(230, 57, 70, 0.3);
+      
+      --laurel: #2a9d8f;
+      --laurel-glow: rgba(42, 157, 143, 0.3);
+      
+      --text: #e0e0ea;
+      --text-muted: #8e8e9f;
+      
+      /* Transitions & Shadows */
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-medium: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-premium: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      --shadow-gold: 0 0 20px rgba(212, 175, 55, 0.15);
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      background-image: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+    }
+
+    button {
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      transition: var(--transition-fast);
+    }
+
+    input {
+      font-family: 'Outfit', sans-serif;
+      outline: none;
+      border: none;
+    }
+
+    /* ==========================================================================
+       3. APPMOBILE RESPONSIVENESS CONTAINER
+       ========================================================================== */
+    .app-container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       4. PREMIUM HEADER WITH EAGLE & LUXURY SHIELD
+       ========================================================================== */
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo-svg {
+      width: 80px;
+      height: 80px;
+      fill: var(--gold);
+      filter: drop-shadow(0 0 12px var(--gold-glow));
+      animation: hoverFloat 4s ease-in-out infinite;
+    }
+
+    .app-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 50%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+    }
+
+    .app-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* Sound Control Trigger */
+    .header-controls {
+      position: absolute;
+      top: 10px;
+      right: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .premium-btn-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .premium-btn-circle:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px var(--gold-glow);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       5. VIEW SHIFTER (TABS / ARCHWAY ROUTING)
+       ========================================================================== */
+    .view-panel {
+      display: none;
+      flex-direction: column;
+      flex-grow: 1;
+      animation: fadeIn var(--transition-medium);
+    }
+
+    .view-panel.active {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       6. DASHBOARD (MAIN ARCHWAY ARCHITECTURE)
+       ========================================================================== */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .mode-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-premium);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .mode-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+
+    .mode-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: var(--shadow-gold), var(--shadow-premium);
+    }
+
+    .mode-card:hover::before {
+      opacity: 1;
+    }
+
+    .mode-icon {
+      font-size: 3rem;
+      margin-bottom: 1.25rem;
+      filter: drop-shadow(0 0 10px rgba(212,175,55,0.25));
+    }
+
+    .mode-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    .mode-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .premium-btn {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+      color: #000;
+      font-weight: 700;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .premium-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    }
+
+    .premium-btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--card-border);
+      color: var(--gold);
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+
+    .premium-btn-secondary:hover {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.1);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       7. PANEL / DECK SELECTOR (Verbs, Nouns categories)
+       ========================================================================== */
+    .selector-strip {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .selector-chip {
+      padding: 0.6rem 1.25rem;
+      border-radius: 30px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .selector-chip.active {
+      border-color: var(--gold);
+      color: #fff;
+      background: rgba(212, 175, 55, 0.15);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    }
+
+    .selector-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    /* Back to menu button */
+    .back-btn-container {
+      margin-bottom: 1.5rem;
+      align-self: flex-start;
+    }
+
+    .back-btn {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .back-btn:hover {
+      color: var(--gold);
+    }
+
+    /* ==========================================================================
+       8. GLADIATOR GRID GAME STYLES
+       ========================================================================== */
+    .grid-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow-premium);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin-bottom: 2rem;
+    }
+
+    .arena-title-box {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .arena-title-box h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .arena-title-box p {
+      font-size: 0.95rem;
+      color: var(--gold);
+    }
+
+    .latin-grid {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .latin-grid th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .latin-grid td {
+      position: relative;
+    }
+
+    .cell-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 0.75rem 0.5rem;
+      text-align: right;
+      width: 140px;
+    }
+
+    .cell-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .cell-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+      background: rgba(212, 175, 55, 0.03);
+    }
+
+    /* Validation glows */
+    .cell-input.correct {
+      border-color: var(--laurel);
+      box-shadow: 0 0 12px var(--laurel-glow);
+      background: rgba(42, 157, 143, 0.05);
+      color: #fff;
+    }
+
+    .cell-input.incorrect {
+      border-color: var(--crimson);
+      box-shadow: 0 0 12px var(--crimson-glow);
+      background: rgba(230, 57, 70, 0.05);
+    }
+
+    .grid-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .score-badge {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--card-border);
+      padding: 0.5rem 1.25rem;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .score-badge span {
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       9. COLOSSEUM CONQUEST (SPEED CONQUEST)
+       ========================================================================== */
+    .conquest-arena {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .conquest-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      box-shadow: var(--shadow-premium);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      text-align: center;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Sand Timer / Health Bar */
+    .timer-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 3px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .timer-bar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 3px;
+      transition: width 0.1s linear;
+    }
+
+    .conquest-score-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .conquest-score-row span strong {
+      color: var(--gold);
+    }
+
+    .conquest-question {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .conquest-hint-label {
+      font-size: 0.95rem;
+      color: var(--gold);
+      margin-bottom: 2.5rem;
+    }
+
+    .conquest-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 480px) {
+      .conquest-options {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .option-btn {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+
+    .option-btn:hover {
+      border-color: var(--gold);
+      box-shadow: 0 4px 15px rgba(212,175,55,0.15);
+      background: rgba(212,175,55,0.02);
+      transform: translateY(-2px);
+    }
+
+    .option-btn.correct {
+      border-color: var(--laurel) !important;
+      box-shadow: 0 4px 15px var(--laurel-glow) !important;
+      background: rgba(42, 157, 143, 0.1) !important;
+      color: #fff !important;
+    }
+
+    .option-btn.incorrect {
+      border-color: var(--crimson) !important;
+      box-shadow: 0 4px 15px var(--crimson-glow) !important;
+      background: rgba(230, 57, 70, 0.1) !important;
+    }
+
+    /* Conquest Results Screen */
+    .results-screen {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .results-crown {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 0 15px var(--gold-glow));
+    }
+
+    /* ==========================================================================
+       10. FORUM FLASHCARDS STYLES
+       ========================================================================== */
+    .flashcard-arena {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 3D card layout */
+    .card-scene {
+      perspective: 1000px;
+      width: 100%;
+      height: 320px;
+      margin-bottom: 2rem;
+    }
+
+    .flashcard {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform var(--transition-medium);
+      cursor: pointer;
+    }
+
+    .flashcard.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-shadow: var(--shadow-premium);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .card-face-front {
+      background: linear-gradient(135deg, rgba(22,22,33,0.85) 0%, rgba(13,13,20,0.95) 100%);
+    }
+
+    .card-face-back {
+      background: linear-gradient(135deg, rgba(13,13,20,0.95) 0%, rgba(22,22,33,0.85) 100%);
+      transform: rotateY(180deg);
+      border-color: var(--gold);
+    }
+
+    .card-deck-indicator {
+      font-size: 0.85rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-main-text {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-family: 'Cinzel', serif;
+    }
+
+    .card-secondary-text {
+      font-size: 1rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .flip-instruction {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .rating-row {
+      display: flex;
+      gap: 0.75rem;
+      width: 100%;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+      pointer-events: none;
+    }
+
+    .rating-row.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .rating-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .rating-btn-hard {
+      background: rgba(230, 57, 70, 0.1);
+      border: 1px solid var(--crimson);
+      color: var(--crimson);
+    }
+
+    .rating-btn-hard:hover {
+      background: var(--crimson);
+      color: #fff;
+    }
+
+    .rating-btn-medium {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+
+    .rating-btn-medium:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .rating-btn-easy {
+      background: rgba(42, 157, 143, 0.1);
+      border: 1px solid var(--laurel);
+      color: var(--laurel);
+    }
+
+    .rating-btn-easy:hover {
+      background: var(--laurel);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       11. IMPERIAL CODEX (REFERENCE LIBRARY)
+       ========================================================================== */
+    .codex-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 900px) {
+      .codex-container {
+        grid-template-columns: 280px 1fr;
+      }
+    }
+
+    .codex-sidebar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      height: fit-content;
+      box-shadow: var(--shadow-premium);
+    }
+
+    .codex-menu-title {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 0.5rem;
+    }
+
+    .codex-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .codex-menu-item button {
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+    }
+
+    .codex-menu-item button:hover {
+      color: var(--gold);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .codex-menu-item.active button {
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.08);
+      border-color: rgba(212, 175, 55, 0.25);
+    }
+
+    .codex-display {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: var(--shadow-premium);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    /* Interactive Highlighter toggle */
+    .codex-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Styles for interactive reference tables */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .ref-table th, .ref-table td {
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .ref-table th {
+      font-family: 'Cinzel', serif;
+      color: var(--gold);
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .ref-table td strong {
+      color: #fff;
+    }
+
+    /* Suffix highlighting class */
+    .ending-hl {
+      color: var(--gold);
+      font-weight: 700;
+      background: rgba(212,175,55,0.08);
+      padding: 0.1rem 0.25rem;
+      border-radius: 4px;
+    }
+
+    /* ==========================================================================
+       12. PARTICLE CANVAS & KEYFRAMES
+       ========================================================================== */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes hoverFloat {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti Particle Effect Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-container">
+    
+    <!-- 🏛️ HEADER ARCHITECTURE -->
+    <header>
+      <div class="logo-container">
+        <!-- SVG Roman Eagle Shield Logo -->
+        <svg class="logo-svg" viewBox="0 0 100 100">
+          <path d="M50,5 L90,25 L90,65 L50,95 L10,65 L10,25 Z" fill="none" stroke="#d4af37" stroke-width="3" />
+          <path d="M50,15 L80,30 L80,60 L50,85 L20,60 L20,30 Z" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.6"/>
+          <!-- Simple eagle path -->
+          <path d="M35,45 Q50,30 65,45 Q50,48 35,45 M50,42 L50,65 M42,50 L58,50 M45,58 L55,58" stroke="#d4af37" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+      <h1 class="app-title">Imperium</h1>
+      <div class="app-subtitle">Latin Table Mastery</div>
+      
+      <!-- Audio toggle button -->
+      <div class="header-controls">
+        <button id="sound-toggle-btn" class="premium-btn-circle" title="Toggle Sound Synth">
+          🔊
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         DASHBOARD VIEW (ARCHWAY ARCHITECTURE)
+         ========================================================================== -->
+    <div id="dashboard-view" class="view-panel active">
+      <div class="dashboard-grid">
+        
+        <!-- Gladiator Grid -->
+        <div class="mode-card">
+          <div class="mode-icon">⚔️</div>
+          <h3 class="mode-title">Gladiator Grid</h3>
+          <p class="mode-desc">The ultimate test of precision. Fill out complete verb conjugation and noun declension grids with instant letter-by-letter correct validation.</p>
+          <button class="premium-btn" onclick="switchView('grid-view')">Enter Arena</button>
+        </div>
+
+        <!-- Colosseum Conquest -->
+        <div class="mode-card">
+          <div class="mode-icon">🏟️</div>
+          <h3 class="mode-title">Colosseum Conquest</h3>
+          <p class="mode-desc">A fast-paced grammatical speed arena. Identify correct grammatical labels and suffixes before the sand timer runs out!</p>
+          <button class="premium-btn" onclick="switchView('conquest-view')">Start Conquest</button>
+        </div>
+
+        <!-- Forum Flashcards -->
+        <div class="mode-card">
+          <div class="mode-icon">🏺</div>
+          <h3 class="mode-title">Forum Flashcards</h3>
+          <p class="mode-desc">A relaxed study lounge utilizing 3D-flipping stone tablets with an embedded active-recall spaced repetition scoring system.</p>
+          <button class="premium-btn" onclick="switchView('flashcard-view')">Consult Codex</button>
+        </div>
+
+        <!-- Imperial Codex -->
+        <div class="mode-card">
+          <div class="mode-icon">📜</div>
+          <h3 class="mode-title">Imperial Codex</h3>
+          <p class="mode-desc">Browse full reference tables of Conjugations I-IV (Present, Imperfect, Perfect) and Noun Declensions 1-3 with interactive suffix highlighting.</p>
+          <button class="premium-btn-secondary" onclick="switchView('codex-view')">Browse Codex</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         GLADIATOR GRID ARENA (ACTIVE RECALL TABLE BUILDER)
+         ========================================================================== -->
+    <div id="grid-view" class="view-panel">
+      <div class="back-btn-container">
+        <button class="back-btn" onclick="switchView('dashboard-view')">← Leave Arena</button>
+      </div>
+
+      <div class="selector-strip" id="grid-deck-selectors">
+        <!-- Generates dynamically -->
+      </div>
+
+      <div class="grid-card">
+        <div class="arena-title-box">
+          <h2 id="grid-title">First Declension</h2>
+          <p id="grid-subtitle">Declining: villa, -ae (F.) - house</p>
+        </div>
+
+        <!-- The Table Builder Grid -->
+        <div style="overflow-x: auto;">
+          <table class="latin-grid" id="arena-table">
+            <!-- Rendered dynamically -->
+          </table>
+        </div>
+
+        <div class="grid-footer">
+          <div class="score-badge">
+            Mastery score: <span id="grid-score">0%</span>
+          </div>
+          <button class="premium-btn-secondary" onclick="resetGrid()">Reset Arena</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         COLOSSEUM CONQUEST VIEW (SPEED SURVIVAL ROUNDS)
+         ========================================================================== -->
+    <div id="conquest-view" class="view-panel">
+      <div class="back-btn-container">
+        <button class="back-btn" onclick="switchView('dashboard-view')">← Retreat to Forum</button>
+      </div>
+
+      <div class="conquest-arena">
+        
+        <!-- Game Play Panel -->
+        <div class="conquest-card" id="conquest-game-panel">
+          <div class="timer-container">
+            <div id="conquest-timer-bar" class="timer-bar"></div>
+          </div>
+
+          <div class="conquest-score-row">
+            <span>Score: <strong id="conquest-score">0</strong></span>
+            <span>Streak: <strong id="conquest-streak">0</strong> 🔥</span>
+            <span>Shields: <strong id="conquest-shields">❤❤❤</strong></span>
+          </div>
+
+          <div class="conquest-question" id="conquest-question-text">villam</div>
+          <div class="conquest-hint-label" id="conquest-hint-text">Accusative Singular (house)</div>
+
+          <div class="conquest-options" id="conquest-options-grid">
+            <!-- Dynamic Buttons -->
+          </div>
+        </div>
+
+        <!-- Results / Game Over Shield -->
+        <div class="conquest-card results-screen" id="conquest-results-panel" style="display: none;">
+          <div class="results-crown">👑</div>
+          <h2>Conquest Concluded!</h2>
+          <p style="margin: 1rem 0; color: var(--text-muted);">You fought bravely and defended the Empire's banners.</p>
+          
+          <div class="conquest-score-row" style="max-width: 300px; margin: 2rem auto;">
+            <span>Final Score: <strong id="conquest-final-score">0</strong></span>
+            <span>Max Streak: <strong id="conquest-max-streak">0</strong> 🔥</span>
+          </div>
+
+          <button class="premium-btn" onclick="startConquestGame()">Re-Enter Arena</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         FORUM FLASHCARDS VIEW (SPACED REPETITION LOUNGE)
+         ========================================================================== -->
+    <div id="flashcard-view" class="view-panel">
+      <div class="back-btn-container">
+        <button class="back-btn" onclick="switchView('dashboard-view')">← Return to Palace</button>
+      </div>
+
+      <div class="flashcard-arena">
+        <div class="card-scene" onclick="flipFlashcard()">
+          <div class="flashcard" id="active-flashcard">
+            
+            <!-- Front Face -->
+            <div class="card-face card-face-front">
+              <div class="card-deck-indicator" id="fc-deck-label">First Declension</div>
+              <div class="card-main-text" id="fc-front-text">villae</div>
+              <div class="card-secondary-text">Click tablet to inspect rules</div>
+              <div class="flip-instruction">Flip Tablet 🏺</div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-face-back">
+              <div class="card-deck-indicator">Translation & Rules</div>
+              <div class="card-main-text" id="fc-back-text" style="font-size: 1.6rem; color: var(--gold);">of the house / to/for the house</div>
+              <div class="card-secondary-text" id="fc-back-subtext" style="margin-top: 1rem;">Genitive/Dative Singular of villa</div>
+              <div class="flip-instruction">Click to Flip Back</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Rating Row (Visible only when card is flipped) -->
+        <div class="rating-row" id="fc-rating-row">
+          <button class="premium-btn rating-btn rating-btn-hard" onclick="rateRecall('hard')">Hard ✕</button>
+          <button class="premium-btn rating-btn rating-btn-medium" onclick="rateRecall('medium')">Medium ⟳</button>
+          <button class="premium-btn rating-btn rating-btn-easy" onclick="rateRecall('easy')">Easy ✓</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         IMPERIAL CODEX VIEW (THE SACRED LIBRARIES)
+         ========================================================================== -->
+    <div id="codex-view" class="view-panel">
+      <div class="back-btn-container">
+        <button class="back-btn" onclick="switchView('dashboard-view')">← Back to Palace</button>
+      </div>
+
+      <div class="codex-container">
+        
+        <!-- Sidebar Codex Menus -->
+        <div class="codex-sidebar">
+          <h4 class="codex-menu-title">Conjugations</h4>
+          <ul class="codex-menu" style="margin-bottom: 2rem;">
+            <li class="codex-menu-item active" data-codex="present"><button onclick="loadCodexItem('present')">Present Tense</button></li>
+            <li class="codex-menu-item" data-codex="imperfect"><button onclick="loadCodexItem('imperfect')">Imperfect Tense</button></li>
+            <li class="codex-menu-item" data-codex="perfect"><button onclick="loadCodexItem('perfect')">Perfect Tense</button></li>
+          </ul>
+
+          <h4 class="codex-menu-title">Declensions</h4>
+          <ul class="codex-menu">
+            <li class="codex-menu-item" data-codex="first"><button onclick="loadCodexItem('first')">First Declension</button></li>
+            <li class="codex-menu-item" data-codex="second"><button onclick="loadCodexItem('second')">Second Declension</button></li>
+            <li class="codex-menu-item" data-codex="third"><button onclick="loadCodexItem('third')">Third Declension</button></li>
+          </ul>
+        </div>
+
+        <!-- Reference Table Display Panel -->
+        <div class="codex-display">
+          
+          <div class="codex-toolbar">
+            <!-- Highlighter toggle -->
+            <button class="premium-btn-secondary" id="highlight-toggle-btn" onclick="toggleSuffixHighlighter()">
+              Toggle Suffix Highlight
+            </button>
+          </div>
+
+          <div id="codex-table-display">
+            <!-- Dynamically populated reference table -->
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       JS CORE LOGIC & SOUND SYNTH CONTEXT
+       ========================================================================== */ -->
+  <script>
+    /* ==========================================================================
+       1. EMBEDDED SACRED LATIN DATA
+       ========================================================================== */
+    const LATIN_DATA = {
+      nouns: {
+        first: {
+          title: "First Declension",
+          subtitle: "Genitive Singular in –ae. Mostly Feminine.",
+          example: "villa, -ae (F.) - house",
+          stem: "vill",
+          headings: ["Case", "Singular Latin", "Singular English", "Plural Latin", "Plural English"],
+          rows: [
+            ["Nominative", "villa", "the house (subject)", "villae", "the houses (subject)"],
+            ["Accusative", "villam", "the house (object)", "villas", "the houses (object)"],
+            ["Genitive", "villae", "of the house", "villarum", "of the houses"],
+            ["Dative", "villae", "to/for the house", "villis", "to/for the houses"],
+            ["Ablative", "villa", "by/with/from/in/at/on the house", "villis", "by/with/from/in/at/on the houses"]
+          ],
+          endings: {
+            sing: ["a", "am", "ae", "ae", "a"],
+            plur: ["ae", "as", "arum", "is", "is"]
+          }
+        },
+        second: {
+          title: "Second Declension",
+          subtitle: "Genitive Singular in –i. Mostly Masculine.",
+          example: "servus, -i (M.) - slave",
+          stem: "serv",
+          headings: ["Case", "Singular Latin", "Singular English", "Plural Latin", "Plural English"],
+          rows: [
+            ["Nominative", "servus", "the slave (subject)", "servi", "the slaves (subject)"],
+            ["Accusative", "servum", "the slave (object)", "servos", "the slaves (object)"],
+            ["Genitive", "servi", "of the slave", "servorum", "of the slaves"],
+            ["Dative", "servo", "to/for the slave", "servis", "to/for the slaves"],
+            ["Ablative", "servo", "by/with/from/in/at/on the slave", "servis", "by/with/from/in/at/on the slaves"]
+          ],
+          endings: {
+            sing: ["us", "um", "i", "o", "o"],
+            plur: ["i", "os", "orum", "is", "is"]
+          }
+        },
+        third: {
+          title: "Third Declension",
+          subtitle: "Genitive Singular in –is. Find stem from Genitive (leon-).",
+          example: "leo, leonis (M.) - lion",
+          stem: "leon",
+          headings: ["Case", "Singular Latin", "Singular English", "Plural Latin", "Plural English"],
+          rows: [
+            ["Nominative", "leo", "the lion (subject)", "leones", "the lions (subject)"],
+            ["Accusative", "leonem", "the lion (object)", "leones", "the lions (object)"],
+            ["Genitive", "leonis", "of the lion", "leonum", "of the lions"],
+            ["Dative", "leoni", "to/for the lion", "leonibus", "to/for the lions"],
+            ["Ablative", "leone", "by/with/from/in/at/on the lion", "leonibus", "by/with/from/in/at/on the lions"]
+          ],
+          endings: {
+            sing: ["o", "em", "is", "i", "e"],
+            plur: ["es", "es", "um", "ibus", "ibus"]
+          }
+        }
+      },
+      verbs: {
+        present: {
+          title: "Present Tense",
+          subtitle: "Action happening now: 'I verb, I am verbing, I do verb'",
+          conjugations: [
+            { name: "1st: do, dare, dedi - give", forms: ["do", "das", "dat", "damus", "datis", "dant"], translations: ["I give", "you (s.) give", "he/she/it gives", "we give", "you (pl.) give", "they give"], endings: ["o", "as", "at", "amus", "atis", "ant"] },
+            { name: "2nd: maneo, manere, mansi - stay", forms: ["maneo", "manes", "manet", "manemus", "manetis", "manent"], translations: ["I stay", "you stay", "he stays", "we stay", "you stay", "they stay"], endings: ["eo", "es", "et", "emus", "etis", "ent"] },
+            { name: "3rd: ago, agere, egi - do", forms: ["ago", "agis", "agit", "agimus", "agitis", "agunt"], translations: ["I do", "you do", "he does", "we do", "you do", "they do"], endings: ["o", "is", "it", "imus", "itis", "unt"] },
+            { name: "3rd-io: capio, capere, cepi - take", forms: ["capio", "capis", "capit", "capimus", "capitis", "capiunt"], translations: ["I take", "you take", "he takes", "we take", "you take", "they take"], endings: ["io", "is", "it", "imus", "itis", "iunt"] },
+            { name: "4th: audio, audire, audivi - hear", forms: ["audio", "audis", "audit", "audimus", "auditis", "audiunt"], translations: ["I hear", "you hear", "he hears", "we hear", "you hear", "they hear"], endings: ["io", "is", "it", "imus", "itis", "iunt"] }
+          ]
+        },
+        imperfect: {
+          title: "Imperfect Tense",
+          subtitle: "Continuous past action: 'I used to verb, I was verbing, I would verb'",
+          conjugations: [
+            { name: "1st: do, dare, dedi - give", forms: ["dabam", "dabas", "dabat", "dabamus", "dabatis", "dabant"], translations: ["I was giving", "you were giving", "he was giving", "we were giving", "you were giving", "they were giving"], endings: ["abam", "abas", "abat", "abamus", "abatis", "abant"] },
+            { name: "2nd: maneo, manere, mansi - stay", forms: ["manebam", "manebas", "manebat", "manebamus", "manebatis", "manebant"], translations: ["I was staying", "you were staying", "he was staying", "we were staying", "you were staying", "they were staying"], endings: ["ebam", "ebas", "ebat", "ebamus", "ebatis", "ebant"] },
+            { name: "3rd: ago, agere, egi - do", forms: ["agebam", "agebas", "agebat", "agebamus", "agebatis", "agebant"], translations: ["I was doing", "you were doing", "he was doing", "we were doing", "you were doing", "they were doing"], endings: ["ebam", "ebas", "ebat", "ebamus", "ebatis", "ebant"] },
+            { name: "3rd-io: capio, capere, cepi - take", forms: ["capiebam", "capiebas", "capiebat", "capiebamus", "capiebatis", "capiebant"], translations: ["I was taking", "you were taking", "he was taking", "we were taking", "you were taking", "they were taking"], endings: ["iebam", "iebas", "iebat", "iebamus", "iebatis", "iebant"] },
+            { name: "4th: audio, audire, audivi - hear", forms: ["audiebam", "audiebas", "audiebat", "audiebamus", "audiebatis", "audiebant"], translations: ["I was hearing", "you were hearing", "he was hearing", "we were hearing", "you were hearing", "they were hearing"], endings: ["iebam", "iebas", "iebat", "iebamus", "iebatis", "iebant"] }
+          ]
+        },
+        perfect: {
+          title: "Perfect Tense",
+          subtitle: "Completed past action: 'I have verbed, I did verb, I verbed'",
+          conjugations: [
+            { name: "1st: do, dare, dedi - give", forms: ["dedi", "dedisti", "dedit", "dedimus", "dedistis", "dederunt"], translations: ["I gave", "you gave", "he gave", "we gave", "you gave", "they gave"], endings: ["i", "isti", "it", "imus", "istis", "erunt"] },
+            { name: "2nd: maneo, manere, mansi - stay", forms: ["mansi", "mansisti", "mansit", "mansimus", "mansistis", "manserunt"], translations: ["I stayed", "you stayed", "he stayed", "we stayed", "you stayed", "they stayed"], endings: ["i", "isti", "it", "imus", "istis", "erunt"] },
+            { name: "3rd: ago, agere, egi - do", forms: ["egi", "egisti", "egit", "egimus", "egistis", "egerunt"], translations: ["I did", "you did", "he did", "we did", "you did", "they did"], endings: ["i", "isti", "it", "imus", "istis", "erunt"] },
+            { name: "3rd-io: capio, capere, cepi - take", forms: ["cepi", "cepisti", "cepit", "cepimus", "cepistis", "ceperunt"], translations: ["I took", "you took", "he took", "we took", "you took", "they took"], endings: ["i", "isti", "it", "imus", "istis", "erunt"] },
+            { name: "4th: audio, audire, audivi - hear", forms: ["audivi", "audivisti", "audivit", "audivimus", "audivistis", "audiverunt"], translations: ["I heard", "you heard", "he heard", "we heard", "you heard", "they heard"], endings: ["i", "isti", "it", "imus", "istis", "erunt"] }
+          ]
+        }
+      }
+    };
+
+    const PERSON_LABELS = ["1st Singular", "2nd Singular", "3rd Singular", "1st Plural", "2nd Plural", "3rd Plural"];
+
+    /* ==========================================================================
+       2. STATE & AUDIO SYNTH SYSTEM
+       ========================================================================== */
+    let activeView = 'dashboard-view';
+    let soundEnabled = true;
+    let suffixHighlightEnabled = true;
+    let audioCtx = null;
+
+    // Web Audio Chime Synth
+    function playSound(type) {
+      if (!soundEnabled) return;
+      
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        
+        if (type === 'correct') {
+          // Play a bright, elegant golden arpeggio chord (C4, E4, G4, C5)
+          const notes = [261.63, 329.63, 392.00, 523.25];
+          notes.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + i * 0.08);
+            
+            gain.gain.setValueAtTime(0, now + i * 0.08);
+            gain.gain.linearRampToValueAtTime(0.15, now + i * 0.08 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.4);
+            
+            osc.start(now + i * 0.08);
+            osc.stop(now + i * 0.08 + 0.45);
+          });
+        } 
+        else if (type === 'incorrect') {
+          // Play a brief minor detuned warning hum
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc1.type = 'sawtooth';
+          osc2.type = 'sawtooth';
+          
+          osc1.frequency.setValueAtTime(130, now);
+          osc2.frequency.setValueAtTime(133, now); // Detuned hum
+          
+          gain.gain.setValueAtTime(0, now);
+          gain.gain.linearRampToValueAtTime(0.1, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+          
+          osc1.start(now);
+          osc2.start(now);
+          
+          osc1.stop(now + 0.3);
+          osc2.stop(now + 0.3);
+        }
+        else if (type === 'click') {
+          // Soft tactile woody click
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(100, now + 0.05);
+          
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+          
+          osc.start(now);
+          osc.stop(now + 0.06);
+        }
+        else if (type === 'complete') {
+          // Upward victorious high arpeggio
+          const freqs = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+          freqs.forEach((freq, i) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + i * 0.06);
+            
+            gain.gain.setValueAtTime(0, now + i * 0.06);
+            gain.gain.linearRampToValueAtTime(0.1, now + i * 0.06 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.3);
+            
+            osc.start(now + i * 0.06);
+            osc.stop(now + i * 0.06 + 0.35);
+          });
+        }
+      } catch (err) {
+        console.warn("Audio Context blocked or not supported", err);
+      }
+    }
+
+    // Toggle Sound Button
+    document.getElementById('sound-toggle-btn').addEventListener('click', () => {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-toggle-btn').innerText = soundEnabled ? '🔊' : '🔇';
+      playSound('click');
+    });
+
+    // Simple Route View Shifter
+    function switchView(viewId) {
+      playSound('click');
+      
+      // Deactivate current
+      document.getElementById(activeView).classList.remove('active');
+      
+      // Activate new
+      document.getElementById(viewId).classList.add('active');
+      activeView = viewId;
+
+      // Init corresponding page states
+      if (viewId === 'grid-view') {
+        initGridArena();
+      } else if (viewId === 'conquest-view') {
+        startConquestGame();
+      } else if (viewId === 'flashcard-view') {
+        initFlashcardDeck();
+      } else if (viewId === 'codex-view') {
+        loadCodexItem('present');
+      }
+    }
+
+    /* ==========================================================================
+       3. CANVA CONFETTI EFFECT
+       ========================================================================== */
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationFrameId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 8 + 4;
+        this.color = Math.random() > 0.5 ? '#d4af37' : '#f3e5ab'; // Gold colors
+        this.speedX = Math.random() * 6 - 3;
+        this.speedY = Math.random() * -8 - 4;
+        this.gravity = 0.25;
+        this.opacity = 1;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 10 - 5;
+      }
+      update() {
+        this.speedY += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.rotation += this.rotationSpeed;
+        this.opacity -= 0.015;
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        // Draw leaf/diamond shapes
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size);
+        ctx.lineTo(this.size/2, 0);
+        ctx.lineTo(0, this.size);
+        ctx.lineTo(-this.size/2, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function triggerConfetti() {
+      particles = [];
+      const sources = [
+        { x: window.innerWidth * 0.2, y: window.innerHeight },
+        { x: window.innerWidth * 0.5, y: window.innerHeight },
+        { x: window.innerWidth * 0.8, y: window.innerHeight }
+      ];
+      
+      sources.forEach(source => {
+        for (let i = 0; i < 40; i++) {
+          particles.push(new Particle(source.x, source.y));
+        }
+      });
+
+      playSound('complete');
+
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      animateParticles();
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles = particles.filter(p => p.opacity > 0);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      if (particles.length > 0) {
+        animationFrameId = requestAnimationFrame(animateParticles);
+      }
+    }
+
+
+    /* ==========================================================================
+       4. GLADIATOR GRID GAME ENGINE
+       ========================================================================== */
+    let currentGridCategory = 'nouns'; // or 'verbs'
+    let currentGridKey = 'first'; // 'first','second','third' or 'present','imperfect','perfect'
+    let gridAnswers = {}; // Holds correct values for validation
+
+    function initGridArena() {
+      // Build top category selection chips
+      const strip = document.getElementById('grid-deck-selectors');
+      strip.innerHTML = '';
+
+      // Category headers
+      const categories = [
+        { name: "1st Nouns", type: "nouns", key: "first" },
+        { name: "2nd Nouns", type: "nouns", key: "second" },
+        { name: "3rd Nouns", type: "nouns", key: "third" },
+        { name: "Present Verbs", type: "verbs", key: "present" },
+        { name: "Imperfect Verbs", type: "verbs", key: "imperfect" },
+        { name: "Perfect Verbs", type: "verbs", key: "perfect" }
+      ];
+
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `selector-chip ${currentGridCategory === cat.type && currentGridKey === cat.key ? 'active' : ''}`;
+        btn.innerText = cat.name;
+        btn.onclick = () => {
+          currentGridCategory = cat.type;
+          currentGridKey = cat.key;
+          initGridArena();
+          playSound('click');
+        };
+        strip.appendChild(btn);
+      });
+
+      buildGridTable();
+    }
+
+    function buildGridTable() {
+      const arena = document.getElementById('arena-table');
+      arena.innerHTML = '';
+      gridAnswers = {};
+
+      if (currentGridCategory === 'nouns') {
+        const nounData = LATIN_DATA.nouns[currentGridKey];
+        document.getElementById('grid-title').innerText = nounData.title;
+        document.getElementById('grid-subtitle').innerText = `Declining: ${nounData.example}`;
+
+        // Create Grid Header
+        arena.innerHTML = `
+          <thead>
+            <tr>
+              <th>Case</th>
+              <th>Singular Latin</th>
+              <th>Plural Latin</th>
+            </tr>
+          </thead>
+          <tbody id="grid-inputs-body"></tbody>
+        `;
+
+        const tbody = document.getElementById('grid-inputs-body');
+        
+        nounData.rows.forEach((row, i) => {
+          const caseName = row[0];
+          const singCorrect = row[1];
+          const plurCorrect = row[3];
+          
+          const rowId = `row-${caseName.toLowerCase()}`;
+          gridAnswers[`${rowId}-sing`] = singCorrect;
+          gridAnswers[`${rowId}-plur`] = plurCorrect;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="cell-label">${caseName}</td>
+            <td>
+              <input type="text" class="cell-input" 
+                     id="${rowId}-sing" 
+                     placeholder="?" 
+                     oninput="validateCell(this)" 
+                     ondblclick="revealCellHint(this, '${singCorrect}')">
+            </td>
+            <td>
+              <input type="text" class="cell-input" 
+                     id="${rowId}-plur" 
+                     placeholder="?" 
+                     oninput="validateCell(this)" 
+                     ondblclick="revealCellHint(this, '${plurCorrect}')">
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } 
+      else {
+        // Verbs layout
+        const verbTense = LATIN_DATA.verbs[currentGridKey];
+        document.getElementById('grid-title').innerText = verbTense.title;
+        document.getElementById('grid-subtitle').innerText = verbTense.subtitle;
+
+        // Header for all 5 verbs
+        let headersHTML = `<th>Person</th>`;
+        verbTense.conjugations.forEach(conj => {
+          headersHTML += `<th>${conj.name.split(':')[0]}</th>`;
+        });
+
+        arena.innerHTML = `
+          <thead>
+            <tr>${headersHTML}</tr>
+          </thead>
+          <tbody id="grid-inputs-body"></tbody>
+        `;
+
+        const tbody = document.getElementById('grid-inputs-body');
+
+        PERSON_LABELS.forEach((person, personIdx) => {
+          const tr = document.createElement('tr');
+          
+          let rowCellsHTML = `<td class="cell-label">${person}</td>`;
+          
+          verbTense.conjugations.forEach((conj, conjIdx) => {
+            const cellId = `verb-${conjIdx}-p${personIdx}`;
+            const correctVal = conj.forms[personIdx];
+            gridAnswers[cellId] = correctVal;
+
+            rowCellsHTML += `
+              <td>
+                <input type="text" class="cell-input" 
+                       id="${cellId}" 
+                       placeholder="?" 
+                       oninput="validateCell(this)" 
+                       ondblclick="revealCellHint(this, '${correctVal}')">
+              </td>
+            `;
+          });
+
+          tr.innerHTML = rowCellsHTML;
+          tbody.appendChild(tr);
+        });
+      }
+
+      updateGridScore();
+    }
+
+    function validateCell(inputEl) {
+      const correctVal = gridAnswers[inputEl.id].toLowerCase().trim();
+      const userVal = inputEl.value.toLowerCase().trim();
+
+      inputEl.classList.remove('correct', 'incorrect');
+
+      if (userVal === '') {
+        // Empty
+      } else if (userVal === correctVal) {
+        inputEl.classList.add('correct');
+        playSound('correct');
+        checkGridCompletion();
+      } else {
+        // If it starts with correct letters, don't flash red immediately unless it's full length
+        if (correctVal.startsWith(userVal)) {
+          // partially correct - keep typing
+        } else {
+          inputEl.classList.add('incorrect');
+          playSound('incorrect');
+        }
+      }
+
+      updateGridScore();
+    }
+
+    function revealCellHint(inputEl, correctVal) {
+      inputEl.value = correctVal.substring(0, 2) + "...";
+      inputEl.classList.add('incorrect');
+      playSound('click');
+      setTimeout(() => {
+        inputEl.value = '';
+        inputEl.classList.remove('incorrect');
+      }, 1500);
+    }
+
+    function updateGridScore() {
+      const inputs = document.querySelectorAll('#grid-inputs-body .cell-input');
+      let correct = 0;
+      inputs.forEach(input => {
+        if (input.classList.contains('correct')) correct++;
+      });
+
+      const score = inputs.length > 0 ? Math.round((correct / inputs.length) * 100) : 0;
+      document.getElementById('grid-score').innerText = `${score}%`;
+    }
+
+    function checkGridCompletion() {
+      const inputs = document.querySelectorAll('#grid-inputs-body .cell-input');
+      let allCorrect = true;
+      inputs.forEach(input => {
+        if (!input.classList.contains('correct')) allCorrect = false;
+      });
+
+      if (allCorrect) {
+        triggerConfetti();
+      }
+    }
+
+    function resetGrid() {
+      const inputs = document.querySelectorAll('#grid-inputs-body .cell-input');
+      inputs.forEach(input => {
+        input.value = '';
+        input.className = 'cell-input';
+      });
+      playSound('click');
+      updateGridScore();
+    }
+
+
+    /* ==========================================================================
+       5. COLOSSEUM CONQUEST (SPEED TRAINER ARCHWAY)
+       ========================================================================== */
+    let conquestScore = 0;
+    let conquestStreak = 0;
+    let conquestMaxStreak = 0;
+    let conquestShields = 3;
+    let conquestActive = false;
+    let conquestTimer = null;
+    let conquestTimeRemaining = 100; // percent
+    let currentConquestQuestion = null;
+
+    function startConquestGame() {
+      conquestScore = 0;
+      conquestStreak = 0;
+      conquestMaxStreak = 0;
+      conquestShields = 3;
+      conquestActive = true;
+      
+      document.getElementById('conquest-score').innerText = '0';
+      document.getElementById('conquest-streak').innerText = '0';
+      document.getElementById('conquest-shields').innerText = '❤❤❤';
+      
+      document.getElementById('conquest-game-panel').style.display = 'block';
+      document.getElementById('conquest-results-panel').style.display = 'none';
+
+      nextConquestQuestion();
+    }
+
+    // Generate a fresh question based on all noun declensions and verbs
+    function generateConquestQuestion() {
+      const pool = [];
+
+      // Add Nouns forms to pool
+      Object.keys(LATIN_DATA.nouns).forEach(nKey => {
+        const noun = LATIN_DATA.nouns[nKey];
+        noun.rows.forEach(row => {
+          const labelSg = `${row[0]} Singular (${noun.example.split('-')[0].trim()})`;
+          const labelPl = `${row[0]} Plural (${noun.example.split('-')[0].trim()})`;
+          
+          pool.push({ latin: row[1], hint: labelSg, english: row[2] });
+          pool.push({ latin: row[3], hint: labelPl, english: row[4] });
+        });
+      });
+
+      // Add Verb forms to pool
+      Object.keys(LATIN_DATA.verbs).forEach(vKey => {
+        const tense = LATIN_DATA.verbs[vKey];
+        tense.conjugations.forEach(conj => {
+          conj.forms.forEach((form, idx) => {
+            const person = PERSON_LABELS[idx];
+            const hint = `${person} (${tense.title})`;
+            pool.push({ latin: form, hint: hint, english: conj.translations[idx] });
+          });
+        });
+      });
+
+      // Select random question item
+      const item = pool[Math.floor(Math.random() * pool.length)];
+
+      // Generate distractors
+      const distractors = new Set();
+      distractors.add(item.latin);
+
+      while (distractors.size < 4) {
+        const d = pool[Math.floor(Math.random() * pool.length)].latin;
+        distractors.add(d);
+      }
+
+      return {
+        question: item.english,
+        hint: item.hint,
+        correct: item.latin,
+        options: Array.from(distractors).sort(() => Math.random() - 0.5)
+      };
+    }
+
+    function nextConquestQuestion() {
+      if (!conquestActive) return;
+
+      currentConquestQuestion = generateConquestQuestion();
+
+      document.getElementById('conquest-question-text').innerText = currentConquestQuestion.question;
+      document.getElementById('conquest-hint-text').innerText = currentConquestQuestion.hint;
+
+      const grid = document.getElementById('conquest-options-grid');
+      grid.innerHTML = '';
+
+      currentConquestQuestion.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt;
+        btn.onclick = () => selectConquestOption(btn, opt);
+        grid.appendChild(btn);
+      });
+
+      // Reset sand-timer
+      conquestTimeRemaining = 100;
+      if (conquestTimer) clearInterval(conquestTimer);
+      
+      conquestTimer = setInterval(() => {
+        conquestTimeRemaining -= 2;
+        document.getElementById('conquest-timer-bar').style.width = `${conquestTimeRemaining}%`;
+        
+        if (conquestTimeRemaining <= 0) {
+          clearInterval(conquestTimer);
+          conquestTimeout();
+        }
+      }, 200); // 10 seconds total round time
+    }
+
+    function selectConquestOption(btn, val) {
+      if (!conquestActive) return;
+      clearInterval(conquestTimer);
+
+      const correctVal = currentConquestQuestion.correct;
+      const optionButtons = document.querySelectorAll('#conquest-options-grid .option-btn');
+
+      optionButtons.forEach(b => {
+        b.disabled = true;
+        if (b.innerText === correctVal) {
+          b.classList.add('correct');
+        }
+      });
+
+      if (val === correctVal) {
+        playSound('correct');
+        conquestScore += 10 + Math.floor(conquestStreak / 2);
+        conquestStreak++;
+        if (conquestStreak > conquestMaxStreak) conquestMaxStreak = conquestStreak;
+        
+        document.getElementById('conquest-score').innerText = conquestScore;
+        document.getElementById('conquest-streak').innerText = conquestStreak;
+        
+        btn.classList.add('correct');
+      } else {
+        playSound('incorrect');
+        btn.classList.add('incorrect');
+        conquestStreak = 0;
+        conquestShields--;
+        
+        document.getElementById('conquest-streak').innerText = '0';
+        updateShieldsDisplay();
+      }
+
+      setTimeout(() => {
+        if (conquestShields <= 0) {
+          endConquestGame();
+        } else {
+          nextConquestQuestion();
+        }
+      }, 1500);
+    }
+
+    function conquestTimeout() {
+      playSound('incorrect');
+      conquestStreak = 0;
+      conquestShields--;
+      document.getElementById('conquest-streak').innerText = '0';
+      updateShieldsDisplay();
+
+      // Show correct answer
+      const correctVal = currentConquestQuestion.correct;
+      const optionButtons = document.querySelectorAll('#conquest-options-grid .option-btn');
+      optionButtons.forEach(b => {
+        b.disabled = true;
+        if (b.innerText === correctVal) b.classList.add('correct');
+      });
+
+      setTimeout(() => {
+        if (conquestShields <= 0) {
+          endConquestGame();
+        } else {
+          nextConquestQuestion();
+        }
+      }, 1500);
+    }
+
+    function updateShieldsDisplay() {
+      let hearts = '';
+      for (let i = 0; i < 3; i++) {
+        hearts += i < conquestShields ? '❤' : '🖤';
+      }
+      document.getElementById('conquest-shields').innerText = hearts;
+    }
+
+    function endConquestGame() {
+      conquestActive = false;
+      clearInterval(conquestTimer);
+
+      document.getElementById('conquest-game-panel').style.display = 'none';
+      document.getElementById('conquest-results-panel').style.display = 'block';
+
+      document.getElementById('conquest-final-score').innerText = conquestScore;
+      document.getElementById('conquest-max-streak').innerText = conquestMaxStreak;
+
+      if (conquestScore > 100) {
+        triggerConfetti();
+      }
+    }
+
+
+    /* ==========================================================================
+       6. FORUM FLASHCARDS LOGIC (SPACED REPETITION STUDY)
+       ========================================================================== */
+    let flashcardPool = [];
+    let activeCardIndex = 0;
+    let cardIsFlipped = false;
+
+    function initFlashcardDeck() {
+      flashcardPool = [];
+      cardIsFlipped = false;
+      document.getElementById('active-flashcard').classList.remove('flipped');
+      document.getElementById('fc-rating-row').classList.remove('visible');
+
+      // Populate flashcard pool from verbs & nouns
+      Object.keys(LATIN_DATA.nouns).forEach(nKey => {
+        const noun = LATIN_DATA.nouns[nKey];
+        noun.rows.forEach(row => {
+          flashcardPool.push({
+            deck: noun.title,
+            front: row[1],
+            back: `${row[2]} / ${row[4]}`,
+            sub: `${row[0]} Singular & Plural of ${noun.example.split('-')[0].trim()}`
+          });
+        });
+      });
+
+      Object.keys(LATIN_DATA.verbs).forEach(vKey => {
+        const tense = LATIN_DATA.verbs[vKey];
+        tense.conjugations.forEach(conj => {
+          conj.forms.forEach((form, idx) => {
+            flashcardPool.push({
+              deck: `${conj.name.split(':')[0]} (${tense.title})`,
+              front: form,
+              back: conj.translations[idx],
+              sub: `${PERSON_LABELS[idx]} of ${conj.name.split('-')[0].trim()}`
+            });
+          });
+        });
+      });
+
+      // Shuffle pool
+      flashcardPool.sort(() => Math.random() - 0.5);
+      showNextFlashcard();
+    }
+
+    function showNextFlashcard() {
+      if (flashcardPool.length === 0) return;
+      
+      const card = flashcardPool[activeCardIndex];
+      
+      document.getElementById('fc-deck-label').innerText = card.deck;
+      document.getElementById('fc-front-text').innerText = card.front;
+      document.getElementById('fc-back-text').innerText = card.back;
+      document.getElementById('fc-back-subtext').innerText = card.sub;
+    }
+
+    function flipFlashcard() {
+      const card = document.getElementById('active-flashcard');
+      cardIsFlipped = !cardIsFlipped;
+      playSound('click');
+
+      if (cardIsFlipped) {
+        card.classList.add('flipped');
+        document.getElementById('fc-rating-row').classList.add('visible');
+      } else {
+        card.classList.remove('flipped');
+        document.getElementById('fc-rating-row').classList.remove('visible');
+      }
+    }
+
+    function rateRecall(rating) {
+      playSound('correct');
+      
+      // Spaced repetition logic (simulated by pool re-shuffling)
+      const currentCard = flashcardPool[activeCardIndex];
+      
+      // Remove from current index
+      flashcardPool.splice(activeCardIndex, 1);
+
+      if (rating === 'hard') {
+        // Insert close to front (reappears in 2-3 cards)
+        const insertIdx = Math.min(flashcardPool.length, 2);
+        flashcardPool.splice(insertIdx, 0, currentCard);
+      } else if (rating === 'medium') {
+        // Re-insert middle of deck
+        const insertIdx = Math.floor(flashcardPool.length / 2);
+        flashcardPool.splice(insertIdx, 0, currentCard);
+      } else {
+        // Easy - push to the bottom
+        flashcardPool.push(currentCard);
+      }
+
+      // Flip back first
+      const cardEl = document.getElementById('active-flashcard');
+      cardEl.classList.remove('flipped');
+      document.getElementById('fc-rating-row').classList.remove('visible');
+      cardIsFlipped = false;
+
+      setTimeout(() => {
+        showNextFlashcard();
+      }, 300);
+    }
+
+
+    /* ==========================================================================
+       7. IMPERIAL CODEX VIEW (REFERENCE LIBRARIES)
+       ========================================================================== */
+    let activeCodexItem = 'present';
+
+    function loadCodexItem(itemKey) {
+      activeCodexItem = itemKey;
+      
+      // Update sidebar active classes
+      const items = document.querySelectorAll('.codex-menu-item');
+      items.forEach(el => {
+        el.classList.remove('active');
+        if (el.getAttribute('data-codex') === itemKey) el.classList.add('active');
+      });
+
+      const display = document.getElementById('codex-table-display');
+      display.innerHTML = '';
+
+      if (LATIN_DATA.nouns[itemKey]) {
+        // It's a noun declension
+        const noun = LATIN_DATA.nouns[itemKey];
+        
+        let tableRowsHTML = '';
+        noun.rows.forEach((row, i) => {
+          const singForm = highlightSuffix(row[1], noun.endings.sing[i]);
+          const plurForm = highlightSuffix(row[3], noun.endings.plur[i]);
+          
+          tableRowsHTML += `
+            <tr>
+              <td><strong>${row[0]}</strong></td>
+              <td>${singForm}</td>
+              <td>${row[2]}</td>
+              <td>${plurForm}</td>
+              <td>${row[4]}</td>
+            </tr>
+          `;
+        });
+
+        display.innerHTML = `
+          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">${noun.title}</h2>
+          <p style="color: var(--gold); font-size: 1rem; margin-bottom: 1.5rem;">${noun.subtitle} Example: <em>${noun.example}</em></p>
+          
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Case</th>
+                <th>Singular Latin</th>
+                <th>Singular English</th>
+                <th>Plural Latin</th>
+                <th>Plural English</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRowsHTML}
+            </tbody>
+          </table>
+        `;
+      } 
+      else if (LATIN_DATA.verbs[itemKey]) {
+        // It's a verb tense
+        const tense = LATIN_DATA.verbs[itemKey];
+
+        let tableColumnsHTML = '';
+        
+        // Render 5 columns, one for each conjugation type
+        tense.conjugations.forEach(conj => {
+          let rowsHTML = '';
+          conj.forms.forEach((form, i) => {
+            const ending = conj.endings[i];
+            const boldForm = highlightSuffix(form, ending);
+            rowsHTML += `
+              <div style="margin-bottom: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 0.6rem;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">${PERSON_LABELS[i]}</div>
+                <div style="font-size: 1.15rem; font-weight: 600; margin: 0.15rem 0;">${boldForm}</div>
+                <div style="font-size: 0.85rem; color: var(--gold-dark);">${conj.translations[i]}</div>
+              </div>
+            `;
+          });
+
+          tableColumnsHTML += `
+            <div style="flex: 1; min-width: 170px; background: rgba(0,0,0,0.25); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.5rem; text-align: center;">
+              <h3 style="font-size: 1rem; color: var(--gold); border-bottom: 1px solid rgba(212,175,55,0.25); padding-bottom: 0.75rem; margin-bottom: 1.25rem;">${conj.name.split(':')[0]}</h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; min-height: 32px;">${conj.name.split('-')[1].trim()}</p>
+              ${rowsHTML}
+            </div>
+          `;
+        });
+
+        display.innerHTML = `
+          <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: #fff;">${tense.title}</h2>
+          <p style="color: var(--gold); font-size: 1rem; margin-bottom: 2rem;">${tense.subtitle}</p>
+          
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+            ${tableColumnsHTML}
+          </div>
+        `;
+      }
+    }
+
+    function highlightSuffix(form, ending) {
+      if (!suffixHighlightEnabled || !ending) return form;
+      
+      const stemLength = form.length - ending.length;
+      if (stemLength > 0 && form.endsWith(ending)) {
+        const stem = form.substring(0, stemLength);
+        return `${stem}<span class="ending-hl">${ending}</span>`;
+      }
+      return `<span class="ending-hl">${form}</span>`;
+    }
+
+    function toggleSuffixHighlighter() {
+      suffixHighlightEnabled = !suffixHighlightEnabled;
+      const btn = document.getElementById('highlight-toggle-btn');
+      
+      if (suffixHighlightEnabled) {
+        btn.classList.remove('premium-btn-secondary');
+        btn.classList.add('premium-btn');
+      } else {
+        btn.classList.add('premium-btn-secondary');
+        btn.classList.remove('premium-btn');
+      }
+
+      playSound('click');
+      loadCodexItem(activeCodexItem);
+    }
+  </script>
+</body>
+</html>
