@@ -52,7 +52,7 @@
 
 .glass-panel-hover:hover {
   background: rgba(15, 23, 42, 0.6);
-  border-color: rgba(16, 185, 129, 0.25); /* Subtle green glow */
+  border-color: rgba(16, 185, 129, 0.25);
   box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
   transform: translateY(-2px);
 }
@@ -79,7 +79,7 @@
   height: 400px;
   background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(0,0,0,0) 70%);
   filter: blur(40px);
-  animation: pulse-slow 8s ease-in-out infinite alternate;
+  animation: ambient-drift 8s ease-in-out infinite alternate;
 }
 
 .kiwi-ambient-glow-2 {
@@ -90,10 +90,74 @@
   height: 500px;
   background: radial-gradient(circle, rgba(14, 165, 233, 0.06) 0%, rgba(0,0,0,0) 70%);
   filter: blur(50px);
-  animation: pulse-slow 12s ease-in-out infinite alternate-reverse;
+  animation: ambient-drift 12s ease-in-out infinite alternate-reverse;
 }
 
-/* Board Game Path styles */
+/* ── Keyframe Animations ─────────────────────────── */
+
+@keyframes ambient-drift {
+  0%   { transform: scale(1) translate(0, 0); opacity: 0.8; }
+  100% { transform: scale(1.1) translate(20px, 20px); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flash-green {
+  0%   { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  50%  { box-shadow: 0 0 30px 8px rgba(16, 185, 129, 0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes flash-red {
+  0%   { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  50%  { box-shadow: 0 0 30px 8px rgba(239, 68, 68, 0.35); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Utility animation classes */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.35s ease-out forwards;
+}
+
+.animate-flash-green {
+  animation: flash-green 0.7s ease-out;
+}
+
+.animate-flash-red {
+  animation: flash-red 0.7s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: ambient-drift 6s ease-in-out infinite alternate;
+}
+
+/* Board path connector line (dotted trail) */
 .map-path-line {
   background: repeating-linear-gradient(
     90deg,
@@ -104,12 +168,41 @@
   );
 }
 
-/* Animations */
-@keyframes pulse-slow {
-  0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-  100% { transform: scale(1.1) translate(20px, 20px); opacity: 1; }
+/* Category tile colour foundations */
+.tile-cat-migration {
+  border-color: rgba(20, 184, 166, 0.35);
+  background: rgba(13, 148, 136, 0.07);
+}
+.tile-cat-migration:hover {
+  border-color: rgba(20, 184, 166, 0.6);
+  box-shadow: 0 0 18px -4px rgba(20, 184, 166, 0.2);
 }
 
-.animate-pulse-slow {
-  animation: pulse-slow 6s ease-in-out infinite alternate;
+.tile-cat-tectonic {
+  border-color: rgba(220, 38, 38, 0.3);
+  background: rgba(185, 28, 28, 0.06);
+}
+.tile-cat-tectonic:hover {
+  border-color: rgba(239, 68, 68, 0.55);
+  box-shadow: 0 0 18px -4px rgba(239, 68, 68, 0.2);
+}
+
+.tile-cat-truefalse {
+  border-color: rgba(234, 179, 8, 0.3);
+  background: rgba(202, 138, 4, 0.06);
+}
+.tile-cat-truefalse:hover {
+  border-color: rgba(250, 204, 21, 0.55);
+  box-shadow: 0 0 18px -4px rgba(250, 204, 21, 0.2);
+}
+
+/* Landmark tooltip */
+.landmark-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.landmark-trigger:hover .landmark-tooltip {
+  visibility: visible;
+  opacity: 1;
 }

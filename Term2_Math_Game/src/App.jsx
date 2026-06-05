@@ -4,8 +4,9 @@ import DashboardSidebar from './components/DashboardSidebar';
 import WordProblemText from './components/WordProblemText';
 import MathTranslationHint from './components/MathTranslationHint';
 import InputForm from './components/InputForm';
+import AnswerInput from './components/AnswerInput';
 import KaTeXRenderer from './components/KaTeXRenderer';
-import { wordProblems } from './data/wordProblems';
+import { allQuestions, ALL_CATEGORIES } from './data/allQuestions';
 import {
   calculatePoints,
   getNextQuestion,
@@ -13,6 +14,7 @@ import {
   getMasteryLabel,
   getMasteryColorClass
 } from './utils/gameLogic';
+import { validateAnswer } from './utils/mathValidator';
 import { validateWordProblemAnswer } from './utils/wordProblemValidator';
 
 export default function App() {
@@ -27,6 +29,7 @@ export default function App() {
   // Hint states
   const [revealedStepsCount, setRevealedStepsCount] = useState(0);
   const [hintUsed, setHintUsed] = useState(false);
+  const [standardHintRevealed, setStandardHintRevealed] = useState(false);
 
   // Form states
   const [inputValue, setInputValue] = useState('');
@@ -44,18 +47,16 @@ export default function App() {
   const [consecutiveCorrect, setConsecutiveCorrect] = useState(0);
   const [consecutiveIncorrect, setConsecutiveIncorrect] = useState(0);
 
-  // Category masteries (starts at 0%)
-  const [mastery, setMastery] = useState({
-    'Age Problems': 0,
-    'Financial & Percentages': 0,
-    'Systems & Logic': 0,
-    'Rates & Distribution': 0,
-    'Measurements & Units': 0
+  // Category masteries (all 9 categories start at 0%)
+  const [mastery, setMastery] = useState(() => {
+    const initial = {};
+    ALL_CATEGORIES.forEach(cat => { initial[cat] = 0; });
+    return initial;
   });
 
   // Pull first question on load
   useEffect(() => {
-    const firstQ = getNextQuestion([], 'easy', wordProblems);
+    const firstQ = getNextQuestion([], 'easy', allQuestions);
     setCurrentQuestion(firstQ);
   }, []);
 
@@ -74,6 +75,7 @@ export default function App() {
     setCurrentDifficulty('easy');
     setRevealedStepsCount(0);
     setHintUsed(false);
+    setStandardHintRevealed(false);
     setInputValue('');
     setFeedbackState('idle');
     setAnimationClass('');
@@ -84,18 +86,16 @@ export default function App() {
     setTotalHintsUnlocked(0);
     setConsecutiveCorrect(0);
     setConsecutiveIncorrect(0);
-    setMastery({
-      'Age Problems': 0,
-      'Financial & Percentages': 0,
-      'Systems & Logic': 0,
-      'Rates & Distribution': 0,
-      'Measurements & Units': 0
-    });
 
-    const firstQ = getNextQuestion([], 'easy', wordProblems);
+    const initial = {};
+    ALL_CATEGORIES.forEach(cat => { initial[cat] = 0; });
+    setMastery(initial);
+
+    const firstQ = getNextQuestion([], 'easy', allQuestions);
     setCurrentQuestion(firstQ);
   };
 
+  // --- Hint handlers ---
   const handleRevealStep = () => {
     if (!currentQuestion) return;
     setHintUsed(true);
@@ -109,17 +109,34 @@ export default function App() {
     setTotalHintsUnlocked((prev) => prev + 1);
   };
 
+  const handleRevealStandardHint = () => {
+    setHintUsed(true);
+    setStandardHintRevealed(true);
+    setTotalHintsUnlocked((prev) => prev + 1);
+  };
+
   const getMultiplier = () => {
     if (streak >= 5) return 2.0;
     if (streak >= 3) return 1.5;
     return 1.0;
   };
 
+  // --- Answer validation ---
+  const checkAnswer = () => {
+    if (!currentQuestion) return false;
+    
+    if (currentQuestion.type === 'word') {
+      return validateWordProblemAnswer(inputValue, currentQuestion.answer);
+    } else {
+      // Standard math question
+      return validateAnswer(inputValue, currentQuestion.answer, currentQuestion.id);
+    }
+  };
+
   const handleSubmit = () => {
     if (!inputValue.trim() || feedbackState !== 'idle' || !currentQuestion) return;
 
-    const isCorrect = validateWordProblemAnswer(inputValue, currentQuestion.answer);
-    let pointsAwarded = 0;
+    const isCorrect = checkAnswer();
 
     // Update mastery for the category
     setMastery((prevMastery) => {
@@ -133,17 +150,15 @@ export default function App() {
     if (isCorrect) {
       setTotalCorrect((prev) => prev + 1);
       
-      // Calculate points (using a hint halves final points)
-      // Consecutive correct answers WITHOUT hints builds a multiplier
       let nextStreak = streak;
       if (!hintUsed) {
         nextStreak = streak + 1;
         setStreak(nextStreak);
       } else {
-        setStreak(0); // broken streak since hint was used
+        setStreak(0);
       }
 
-      pointsAwarded = calculatePoints(currentQuestion.difficulty, nextStreak, hintUsed);
+      const pointsAwarded = calculatePoints(currentQuestion.difficulty, nextStreak, hintUsed);
       setScore((prevScore) => prevScore + pointsAwarded);
       setEarnedPoints(pointsAwarded);
       setFeedbackState('correct');
@@ -164,7 +179,7 @@ export default function App() {
       }
     } else {
       setTotalIncorrect((prev) => prev + 1);
-      setStreak(0); // Break streak
+      setStreak(0);
       setFeedbackState('incorrect');
       setAnimationClass('animate-shake');
 
@@ -190,7 +205,7 @@ export default function App() {
     const updatedAnsweredIds = [...answeredIds, currentQuestion.id];
     setAnsweredIds(updatedAnsweredIds);
 
-    const nextQ = getNextQuestion(updatedAnsweredIds, currentDifficulty, wordProblems);
+    const nextQ = getNextQuestion(updatedAnsweredIds, currentDifficulty, allQuestions);
 
     if (nextQ === null) {
       setGameCompleted(true);
@@ -198,6 +213,7 @@ export default function App() {
       setCurrentQuestion(nextQ);
       setRevealedStepsCount(0);
       setHintUsed(false);
+      setStandardHintRevealed(false);
       setInputValue('');
       setFeedbackState('idle');
       setEarnedPoints(0);
@@ -205,7 +221,16 @@ export default function App() {
     }
   };
 
-  // Loading guard — currentQuestion is null on first render before useEffect fires
+  // --- Question type helpers ---
+  const isWordProblem = currentQuestion?.type === 'word';
+
+  // Get the display label for the question type
+  const questionTypeLabel = isWordProblem ? 'Word Problem' : 'Standard';
+  const questionTypeBadgeClass = isWordProblem
+    ? 'bg-violet-500/10 text-violet-400 border border-violet-500/20'
+    : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20';
+
+  // --- Loading guard ---
   if (!currentQuestion && !gameCompleted) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center font-sans">
@@ -231,7 +256,7 @@ export default function App() {
         streak={streak}
         multiplier={getMultiplier()}
         answeredCount={answeredIds.length}
-        totalQuestions={wordProblems.length}
+        totalQuestions={allQuestions.length}
         onReset={handleReset}
       />
 
@@ -242,20 +267,25 @@ export default function App() {
           mastery={mastery}
           currentDifficulty={currentDifficulty}
           answeredList={answeredIds}
-          questionBank={wordProblems}
+          questionBank={allQuestions}
         />
 
         {/* Central Problem Panel */}
         <main className="flex-1 p-6 md:p-8 flex items-center justify-center">
           {!gameCompleted ? (
-            /* Word Problem Active Board */
+            /* Active Question Board */
             <div
               className={`w-full max-w-3xl bg-slate-900/20 border border-slate-800/80 rounded-3xl p-6 md:p-8 backdrop-blur-md shadow-2xl flex flex-col gap-6 transition-all duration-300 ${animationClass}`}
               onAnimationEnd={() => setAnimationClass('')}
             >
               {/* Question badges */}
               <div className="flex items-center justify-between border-b border-slate-900/60 pb-3">
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
+                  {/* Question type badge */}
+                  <span className={`text-xs px-2.5 py-1 font-outfit font-semibold rounded-lg ${questionTypeBadgeClass}`}>
+                    {questionTypeLabel}
+                  </span>
+                  {/* Difficulty badge */}
                   <span className={`text-xs px-2.5 py-1 font-outfit font-semibold rounded-lg capitalize ${
                     currentQuestion.difficulty === 'easy' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
                     currentQuestion.difficulty === 'medium' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' :
@@ -263,35 +293,69 @@ export default function App() {
                   }`}>
                     {currentQuestion.difficulty}
                   </span>
+                  {/* Category badge */}
                   <span className="text-xs px-2.5 py-1 font-outfit font-semibold rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                     {currentQuestion.category}
                   </span>
                 </div>
                 <span className="text-xs font-mono text-slate-500">
-                  Q{answeredIds.length + 1} / {wordProblems.length}
+                  Q{answeredIds.length + 1} / {allQuestions.length}
                 </span>
               </div>
 
-              {/* Text Container */}
-              <WordProblemText text={currentQuestion.text} />
+              {/* Question Content — type-aware rendering */}
+              {isWordProblem ? (
+                /* Word Problem: long-form text with inline math */
+                <WordProblemText text={currentQuestion.text} />
+              ) : (
+                /* Standard Question: KaTeX-rendered math problem */
+                <div className="w-full py-4 px-2">
+                  <div className="max-w-2xl mx-auto text-center">
+                    <div className="text-slate-200 text-lg md:text-xl leading-relaxed font-sans">
+                      <KaTeXRenderer text={currentQuestion.problem} />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Input or Feedback form */}
               <div className="flex flex-col gap-4 border-t border-slate-900/60 pt-4">
                 {feedbackState === 'idle' ? (
                   <>
-                    <InputForm
-                      value={inputValue}
-                      onChange={setInputValue}
-                      onSubmit={handleSubmit}
-                      disabled={false}
-                    />
+                    {/* Type-aware input */}
+                    {isWordProblem ? (
+                      <InputForm
+                        value={inputValue}
+                        onChange={setInputValue}
+                        onSubmit={handleSubmit}
+                        disabled={false}
+                      />
+                    ) : (
+                      <AnswerInput
+                        value={inputValue}
+                        onChange={setInputValue}
+                        onSubmit={handleSubmit}
+                        disabled={false}
+                      />
+                    )}
 
-                    <MathTranslationHint
-                      translationGuide={currentQuestion.translationGuide}
-                      revealedStepsCount={revealedStepsCount}
-                      onRevealStep={handleRevealStep}
-                      incorrectShown={false}
-                    />
+                    {/* Type-aware hint system */}
+                    {isWordProblem ? (
+                      <MathTranslationHint
+                        translationGuide={currentQuestion.translationGuide}
+                        revealedStepsCount={revealedStepsCount}
+                        onRevealStep={handleRevealStep}
+                        incorrectShown={false}
+                      />
+                    ) : (
+                      /* Standard single-reveal hint */
+                      <StandardHintSection
+                        hint={currentQuestion.hint}
+                        hintRevealed={standardHintRevealed}
+                        onReveal={handleRevealStandardHint}
+                        incorrectShown={false}
+                      />
+                    )}
                   </>
                 ) : (
                   /* Feedback Report */
@@ -306,7 +370,9 @@ export default function App() {
                           </div>
                           <div>
                             <h3 className="font-outfit font-bold text-emerald-400 text-sm">Correct Answer!</h3>
-                            <p className="text-xs text-slate-300">Formulated and solved correctly.</p>
+                            <p className="text-xs text-slate-300">
+                              {isWordProblem ? 'Formulated and solved correctly.' : 'Great work solving this problem.'}
+                            </p>
                           </div>
                         </div>
                         <div className="text-center sm:text-right">
@@ -339,13 +405,22 @@ export default function App() {
                       </div>
                     )}
 
-                    {/* Show full translation guide in both feedback states (always unlocked if incorrect) */}
-                    <MathTranslationHint
-                      translationGuide={currentQuestion.translationGuide}
-                      revealedStepsCount={revealedStepsCount}
-                      onRevealStep={handleRevealStep}
-                      incorrectShown={feedbackState === 'incorrect'}
-                    />
+                    {/* Show hint in feedback — type-aware */}
+                    {isWordProblem ? (
+                      <MathTranslationHint
+                        translationGuide={currentQuestion.translationGuide}
+                        revealedStepsCount={revealedStepsCount}
+                        onRevealStep={handleRevealStep}
+                        incorrectShown={feedbackState === 'incorrect'}
+                      />
+                    ) : (
+                      <StandardHintSection
+                        hint={currentQuestion.hint}
+                        hintRevealed={standardHintRevealed}
+                        onReveal={handleRevealStandardHint}
+                        incorrectShown={feedbackState === 'incorrect'}
+                      />
+                    )}
 
                     {/* Next step controller */}
                     <div className="flex justify-end mt-2">
@@ -353,7 +428,7 @@ export default function App() {
                         onClick={handleContinue}
                         className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700/50 text-white font-outfit font-semibold transition-all shadow-md flex items-center gap-2 cursor-pointer"
                       >
-                        Next Word Problem
+                        Next Question
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                         </svg>
@@ -364,10 +439,10 @@ export default function App() {
               </div>
             </div>
           ) : (
-            /* quest complete summary panel */
+            /* Quest complete summary panel */
             <div className="w-full max-w-2xl bg-slate-900/20 border border-amber-500/20 rounded-3xl p-8 backdrop-blur-md shadow-2xl flex flex-col items-center gap-6 text-center animate-correct-pulse">
               <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-400 via-orange-500 to-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20 mb-2 relative">
-                <span className="absolute animate-ping inline-flex h-full w-full rounded-full bg-orange-450 opacity-20"></span>
+                <span className="absolute animate-ping inline-flex h-full w-full rounded-full bg-orange-400 opacity-20"></span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10 text-amber-300">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-6.75a1.125 1.125 0 0 1-1.125-1.125V18.75m9 0V21m-9-2.25V21m9 0H4.5" />
                 </svg>
@@ -375,10 +450,10 @@ export default function App() {
 
               <div>
                 <h2 className="font-outfit font-black text-3xl tracking-tight text-white m-0">
-                  Algebra Mastered!
+                  Quest Complete!
                 </h2>
                 <p className="text-slate-400 mt-2 text-sm">
-                  You have successfully translated and solved all 15 word problems.
+                  You have successfully completed all {allQuestions.length} questions — both standard math and word problems.
                 </p>
               </div>
 
@@ -407,18 +482,22 @@ export default function App() {
               </div>
 
               {/* Detailed Mastery Summary */}
-              <div className="w-full text-left bg-slate-950/40 border border-slate-850 p-5 rounded-2xl">
+              <div className="w-full text-left bg-slate-950/40 border border-slate-800 p-5 rounded-2xl">
                 <h4 className="font-outfit font-bold text-xs text-slate-300 uppercase tracking-wider mb-3">
                   Topic Graduation Status
                 </h4>
-                <div className="space-y-3.5">
-                  {Object.keys(mastery).map((topic) => {
+                <div className="space-y-3">
+                  {ALL_CATEGORIES.map((topic) => {
                     const level = mastery[topic] || 0;
+                    // Skip topics with 0 mastery and no questions answered
+                    const hasQuestions = allQuestions.some(q => q.category === topic);
+                    if (!hasQuestions) return null;
+
                     const label = getMasteryLabel(level);
                     const colorClass = getMasteryColorClass(level);
                     return (
                       <div key={topic} className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-slate-350">{topic}</span>
+                        <span className="text-xs font-semibold text-slate-400">{topic}</span>
                         <div className="flex items-center gap-3">
                           <div className="w-24 h-1.5 bg-slate-800 rounded-full overflow-hidden">
                             <div className="h-full bg-amber-500" style={{ width: `${level}%` }} />
@@ -437,12 +516,92 @@ export default function App() {
                 onClick={handleReset}
                 className="mt-2 px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-outfit font-bold rounded-xl transition-all shadow-lg hover:shadow-amber-500/20 cursor-pointer"
               >
-                Restart Word Quest
+                Restart Quest
               </button>
             </div>
           )}
         </main>
       </div>
+    </div>
+  );
+}
+
+
+/**
+ * StandardHintSection — single-reveal hint for standard math questions.
+ * Shows a button to unlock the hint (with 50% point penalty warning),
+ * then displays the full hint text with KaTeX rendering.
+ */
+function StandardHintSection({ hint, hintRevealed, onReveal, incorrectShown }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const shouldShow = hintRevealed || incorrectShown;
+
+  const handleClick = () => {
+    if (hintRevealed) return; // Already revealed
+    setShowConfirm(true);
+  };
+
+  const handleConfirm = () => {
+    setShowConfirm(false);
+    onReveal();
+  };
+
+  return (
+    <div className="w-full mt-4 flex flex-col items-center">
+      {/* Unlock Button */}
+      {!shouldShow && (
+        <div className="mb-4">
+          {!showConfirm ? (
+            <button
+              onClick={handleClick}
+              className="text-xs font-semibold text-slate-400 hover:text-amber-400 transition-colors flex items-center gap-1.5 cursor-pointer bg-slate-900/40 hover:bg-amber-500/5 border border-slate-800 hover:border-amber-500/30 px-4 py-2 rounded-xl"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 text-amber-400">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+              </svg>
+              Show Hint
+              <span className="text-[9px] text-slate-500 font-mono">(costs 50% points)</span>
+            </button>
+          ) : (
+            <div className="bg-slate-950/80 border border-amber-500/20 rounded-2xl p-4 max-w-sm w-full text-center shadow-lg animate-shake">
+              <p className="text-xs text-amber-200 mb-3 font-medium">
+                Unlock hint? This will halve the potential points earned for this question.
+              </p>
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={handleConfirm}
+                  className="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  Yes, Unlock
+                </button>
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-colors cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Revealed Hint */}
+      {shouldShow && (
+        <div className="w-full max-w-2xl bg-slate-950/30 border border-slate-800/60 rounded-2xl p-5 shadow-inner transition-all duration-500 animate-glow-slow text-left">
+          <div className="flex items-center gap-2 mb-3 text-amber-400/90">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+            </svg>
+            <h4 className="font-outfit font-bold text-xs uppercase tracking-wider">
+              {incorrectShown ? 'Solution Hint' : 'Hint'}
+            </h4>
+          </div>
+          <div className="text-slate-300 text-sm leading-relaxed border-l-2 border-amber-500/20 pl-3.5">
+            <KaTeXRenderer text={hint} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

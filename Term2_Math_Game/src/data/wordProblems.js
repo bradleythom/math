@@ -1,6 +1,7 @@
 export const wordProblems = [
   {
     id: 1,
+    type: 'word',
     difficulty: 'medium',
     category: 'Systems & Logic',
     text: 'The sum of three numbers is \\(66\\). The second number is twice the first, and \\(6\\) less than the third number. Form an equation to represent this problem and then calculate the three numbers.',
@@ -14,6 +15,7 @@ export const wordProblems = [
   },
   {
     id: 2,
+    type: 'word',
     difficulty: 'medium',
     category: 'Age Problems',
     text: "Sam is \\(32\\) years older than his son. \\(10\\) years ago, he was three times as old as his son was then. Form an equation to represent this problem and then calculate both Sam and his son's age now.",
@@ -27,6 +29,7 @@ export const wordProblems = [
   },
   {
     id: 3,
+    type: 'word',
     difficulty: 'hard',
     category: 'Financial & Percentages',
     text: 'Brian spends \\(\\frac{2}{9}\\) of his weekly income on food, and from his remaining income he spends \\(\\frac{1}{2}\\) on rent and \\(\\frac{1}{4}\\) on transport. If there is \\(\\$350\\) left at the end each week calculate his weekly income.',
@@ -42,6 +45,7 @@ export const wordProblems = [
   },
   {
     id: 4,
+    type: 'word',
     difficulty: 'easy',
     category: 'Financial & Percentages',
     text: 'Every year a woman is paid \\(\\$2,000\\) more than in the previous year. If she receives \\(\\$180,000\\) over the course of three years, how much did she get paid in the first year? Form an algebraic equation and solve it.',
@@ -55,6 +59,7 @@ export const wordProblems = [
   },
   {
     id: 5,
+    type: 'word',
     difficulty: 'medium',
     category: 'Rates & Distribution',
     text: 'Tom was training for a swimming gala. Every day for \\(9\\) weeks he swam the same number of lengths in either a \\(25\\)-metre indoor pool or a \\(20\\)-metre outdoor pool. After the \\(9\\) weeks of training, he calculated that he had swam the same distance in each pool. How many times (days) did he swim in the indoor pool?',
@@ -68,6 +73,7 @@ export const wordProblems = [
   },
   {
     id: 6,
+    type: 'word',
     difficulty: 'medium',
     category: 'Systems & Logic',
     text: 'A fruit vendor sells apples and oranges. He sells \\(3\\) kilograms more apples than oranges. The price per kilogram for apples is \\(\\$5\\) and for oranges is \\(\\$6\\). If he sells a total of \\(15\\) kilograms of fruit and collects \\(\\$81\\), how many kilograms of each fruit does he sell? Set up algebra equations.',
@@ -81,6 +87,7 @@ export const wordProblems = [
   },
   {
     id: 7,
+    type: 'word',
     difficulty: 'hard',
     category: 'Measurements & Units',
     text: 'Three consecutive even numbers are such that four times the smallest and two times the largest number exceeds three times the middle number by \\(2024\\). What is the sum of the digits of the smallest number?',
@@ -94,6 +101,7 @@ export const wordProblems = [
   },
   {
     id: 8,
+    type: 'word',
     difficulty: 'medium',
     category: 'Rates & Distribution',
     text: 'After tennis training, Harold collects twice as many balls as Charles and \\(5\\) more than Vic. They collect \\(35\\) balls in total. Form an equation and then solve it to show how many balls Harold collected.',
@@ -107,6 +115,7 @@ export const wordProblems = [
   },
   {
     id: 9,
+    type: 'word',
     difficulty: 'hard',
     category: 'Systems & Logic',
     text: 'Weighing the baby at the clinic was a problem. The baby would not keep still and caused the scales to wobble. So, I held the baby and stood on the scale while the nurse read off \\(78\\) kilogrammes. The nurse then held the baby while I read off \\(69\\) kilogrammes. Finally, I held the nurse while the baby read off \\(137\\) kilogrammes. What was the combined weight of all three of us?',
@@ -120,6 +129,7 @@ export const wordProblems = [
   },
   {
     id: 10,
+    type: 'word',
     difficulty: 'easy',
     category: 'Financial & Percentages',
     text: 'Calvin buys a calculator on a special at Bookstore Warehouse. The calculator cost him \\(\\$66\\), and he saw that the price had been marked down by \\(25\\%\\). What was the original price of the calculator before the markdown?',
@@ -133,6 +143,7 @@ export const wordProblems = [
   },
   {
     id: 11,
+    type: 'word',
     difficulty: 'easy',
     category: 'Rates & Distribution',
     text: 'Angela has a fitness routine. She spends the same amount of time on each of her exercises. She has six exercises. She begins her exercises at 5.20pm and works until 6.35pm. She then has dinner, and exercises from 7.45pm to 9.00pm. Write an algebraic equation and use that to calculate the amount of time spent on each exercise in minutes.',
@@ -146,6 +157,7 @@ export const wordProblems = [
   },
   {
     id: 12,
+    type: 'word',
     difficulty: 'hard',
     category: 'Systems & Logic',
     text: 'Some fish, some dogs and some children are swimming in a bay. There are \\(40\\) legs in total, twice as many heads as tails, and more dogs than fish. How many fish are in the bay?',
@@ -161,6 +173,7 @@ export const wordProblems = [
   },
   {
     id: 13,
+    type: 'word',
     difficulty: 'medium',
     category: 'Financial & Percentages',
     text: 'A cricket bat signed Tachin Sendulkar has increased in value by \\(30\\%\\) over the last \\(25\\) years. It is now valued at \\(\\$455\\). What was its original value?',
@@ -174,6 +187,7 @@ export const wordProblems = [
   },
   {
     id: 14,
+    type: 'word',
     difficulty: 'easy',
     category: 'Measurements & Units',
     text: 'A water container holds \\(3\\) litres of water. Small paper cups hold \\(150\\) millilitres each. How many cups can be filled with two water containers?',
@@ -186,6 +200,7 @@ export const wordProblems = [
   },
   {
     id: 15,
+    type: 'word',
     difficulty: 'easy',
     category: 'Financial & Percentages',
     text: 'In a sale a shirt has been reduced from \\(\\$65\\) to \\(\\$55.25\\). What is the percentage decrease?',

@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 export default function AnswerInput({ value, onChange, onSubmit, disabled, placeholder = "Type your answer..." }) {
   const inputRef = useRef(null);
 
-  // Helper characters for easy mobile typing
+  // Helper characters for easy mobile typing — includes ², ³ for exponents
   const mathSymbols = [
     { label: 'π', value: '\\pi' },
     { label: '²', value: '²' },
@@ -15,6 +15,7 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
     { label: 'y', value: 'y' },
     { label: 'r', value: 'r' },
     { label: 't', value: 't' },
+    { label: 'g', value: 'g' },
   ];
 
   const handleInsertSymbol = (symbol) => {
@@ -38,7 +39,7 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
     }, 50);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (value.trim()) {
@@ -50,17 +51,17 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
   return (
     <div className="w-full flex flex-col gap-3">
       {/* Input container */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 w-full">
         <div className="relative flex-1">
           <input
             ref={inputRef}
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            onKeyDown={handleKeyPress}
+            onKeyDown={handleKeyDown}
             disabled={disabled}
             placeholder={placeholder}
-            className="w-full bg-slate-950/60 border border-slate-800 focus:border-violet-500 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20 transition-all font-mono text-base disabled:opacity-50 disabled:cursor-not-allowed shadow-inner"
+            className="w-full bg-slate-950/60 border border-slate-800 focus:border-amber-500 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20 transition-all font-mono text-base disabled:opacity-50 disabled:cursor-not-allowed shadow-inner"
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
@@ -84,7 +85,7 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
         <button
           onClick={onSubmit}
           disabled={disabled || !value.trim()}
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 disabled:from-slate-800 disabled:to-slate-800 text-white font-outfit font-semibold hover:shadow-lg hover:shadow-indigo-500/10 disabled:opacity-40 disabled:hover:shadow-none cursor-pointer transition-all border border-violet-500/20 disabled:border-none"
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 disabled:from-slate-800 disabled:to-slate-800 text-slate-950 disabled:text-slate-500 font-outfit font-bold hover:shadow-lg hover:shadow-amber-500/10 disabled:opacity-40 disabled:hover:shadow-none cursor-pointer transition-all border border-amber-500/20 disabled:border-none"
         >
           Submit
         </button>
@@ -93,7 +94,7 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
       {/* Floating Math Symbol Keys */}
       {!disabled && (
         <div className="flex flex-wrap items-center gap-1.5 py-1">
-          <span className="text-[10px] text-slate-500 uppercase tracking-wider mr-1.5 select-none">
+          <span className="text-[10px] text-slate-500 uppercase tracking-wider mr-1.5 select-none font-semibold">
             Math Keyboard:
           </span>
           {mathSymbols.map((sym) => (
