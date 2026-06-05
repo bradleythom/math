@@ -205,6 +205,20 @@ export default function App() {
     }
   };
 
+  // Loading guard — currentQuestion is null on first render before useEffect fires
+  if (!currentQuestion && !gameCompleted) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center font-sans">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-outfit font-black text-2xl text-white shadow-lg shadow-indigo-500/20 animate-pulse">
+            Σ
+          </div>
+          <p className="text-slate-400 text-sm font-outfit">Loading questions...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col font-sans relative overflow-hidden">
       {/* Background ambient lighting */}

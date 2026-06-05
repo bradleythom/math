@@ -1,0 +1,175 @@
+[
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "Define the term flora.",
+    "statement": "Define the term flora.",
+    "options": ["Animals", "Plants", "Rock formations", "Waterways"],
+    "correctAnswer": "Plants",
+    "pointsValue": 10
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "What conditions cause a population's Natural Increase to occur?",
+    "statement": "What conditions cause a population's Natural Increase to occur?",
+    "options": [
+      "When the number of births exceeds the number of deaths",
+      "When net migration exceeds local deaths",
+      "When infant mortality rates drop to zero",
+      "When life expectancy exceeds 80 years"
+    ],
+    "correctAnswer": "When the number of births exceeds the number of deaths",
+    "pointsValue": 10
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "State a main cause for the sharp decline of the Māori population in the 1800s.",
+    "statement": "State a main cause for the sharp decline of the Māori population in the 1800s.",
+    "options": [
+      "Large-scale emigration to Australia and other Pacific Islands",
+      "A massive volcanic eruption in Lake Taupō destroying crops",
+      "Inter-tribal warfare (Musket Wars) or a lack of immunity to European diseases like measles",
+      "Severe famines caused by sudden, prolonged regional cooling"
+    ],
+    "correctAnswer": "Inter-tribal warfare (Musket Wars) or a lack of immunity to European diseases like measles",
+    "pointsValue": 20
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "What major factor caused the second wave of European migration to NZ in the 1800s?",
+    "statement": "What major factor caused the second wave of European migration to NZ in the 1800s?",
+    "options": [
+      "The start of World War I",
+      "The discovery of gold/gold rushes",
+      "Assisted industrial schemes under Colonial Treasurer Julius Vogel",
+      "A search for warmer agricultural climates"
+    ],
+    "correctAnswer": "The discovery of gold/gold rushes",
+    "pointsValue": 10
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "What factor drove the third wave of European migration in the 1870s?",
+    "statement": "What factor drove the third wave of European migration in the 1870s?",
+    "options": [
+      "The arrival of early whalers and sealers looking for resources",
+      "Assisted immigration schemes implemented under Colonial Treasurer Julius Vogel",
+      "The discovery of gold in Otago",
+      "The signing of the Treaty of Waitangi"
+    ],
+    "correctAnswer": "Assisted immigration schemes implemented under Colonial Treasurer Julius Vogel",
+    "pointsValue": 20
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "Why did the NZ government start accepting high migration volumes from Pacific Islands in the 1960s?",
+    "statement": "Why did the NZ government start accepting high migration volumes from Pacific Islands in the 1960s?",
+    "options": [
+      "A severe shortage of unskilled labor/workers in rapidly expanding manufacturing industries",
+      "To fulfill regional tourism quotas and cultural exchange programs",
+      "Due to severe climate and humanitarian crises in the Pacific region",
+      "To satisfy agricultural agreements for sheep farming"
+    ],
+    "correctAnswer": "A severe shortage of unskilled labor/workers in rapidly expanding manufacturing industries",
+    "pointsValue": 20
+  },
+  {
+    "category": "LEES_PUSH_PULL",
+    "question": "According to 2018 census statistics, what percentage of New Zealand's population resides in urban areas vs rural environments?",
+    "statement": "According to 2018 census statistics, what percentage of New Zealand's population resides in urban areas vs rural environments?",
+    "options": [
+      "50.0% Urban, 50.0% Rural",
+      "72.4% Urban, 27.6% Rural",
+      "86.5% Urban, 13.5% Rural",
+      "95.2% Urban, 4.8% Rural"
+    ],
+    "correctAnswer": "86.5% Urban, 13.5% Rural",
+    "pointsValue": 10
+  },
+  {
+    "category": "TECTONIC_RING_OF_FIRE",
+    "question": "Name the 3 core geological agents of erosion.",
+    "statement": "Name the 3 core geological agents of erosion.",
+    "options": [
+      "Tectonic plates, earthquakes, and volcanic eruptions",
+      "Ice (glaciers), wind, and water (rivers/waves)",
+      "Sunlight, plant roots, and burrowing animals",
+      "Chemical weathering, oxidation, and deposition"
+    ],
+    "correctAnswer": "Ice (glaciers), wind, and water (rivers/waves)",
+    "pointsValue": 10
+  },
+  {
+    "category": "TECTONIC_RING_OF_FIRE",
+    "question": "What dominant relief type covers roughly 49% of New Zealand's total land area?",
+    "statement": "What dominant relief type covers roughly 49% of New Zealand's total land area?",
+    "options": ["Plains", "Plateauland", "Mountains", "Sand dunes"],
+    "correctAnswer": "Mountains",
+    "pointsValue": 10
+  },
+  {
+    "category": "TECTONIC_RING_OF_FIRE",
+    "question": "What type of plate boundary is found directly beneath the North Island of NZ?",
+    "statement": "What type of plate boundary is found directly beneath the North Island of NZ?",
+    "options": [
+      "A constructive, divergent plate boundary",
+      "A conservative, transform plate boundary",
+      "A destructive, subduction plate boundary",
+      "A passive, intraplate hot spot boundary"
+    ],
+    "correctAnswer": "A destructive, subduction plate boundary",
+    "pointsValue": 10
+  },
+  {
+    "category": "TECTONIC_RING_OF_FIRE",
+    "question": "Describe the specific crustal interactions occurring along the North Island plate boundary.",
+    "statement": "Describe the specific crustal interactions occurring along the North Island plate boundary.",
+    "options": [
+      "Two plates pull apart, causing magma to rise and create new oceanic crust in a central valley",
+      "The denser oceanic crust (Pacific Plate) collides and subducts underneath the lighter continental crust (Australian Plate), melting in the mantle to form active volcanoes",
+      "The plates slide past each other horizontally along the alpine fault zone, generating strike-slip earthquakes",
+      "The continental crust folds upward to form the Southern Alps without any subduction or volcanic activity"
+    ],
+    "correctAnswer": "The denser oceanic crust (Pacific Plate) collides and subducts underneath the lighter continental crust (Australian Plate), melting in the mantle to form active volcanoes",
+    "pointsValue": 20
+  },
+  {
+    "category": "TECTONIC_RING_OF_FIRE",
+    "question": "What is the name of the highly significant strike-slip fault system cutting across the South Island landscape?",
+    "statement": "What is the name of the highly significant strike-slip fault system cutting across the South Island landscape?",
+    "options": ["The Wellington Fault", "The Alpine Fault", "The Hope Fault", "The Kermadec Trench"],
+    "correctAnswer": "The Alpine Fault",
+    "pointsValue": 10
+  },
+  {
+    "category": "TRUE_OR_FALSE",
+    "question": "Statement: Te Waka a Māui is the traditional Māori term for the North Island.",
+    "statement": "Te Waka a Māui is the traditional Māori term for the North Island.",
+    "options": ["True", "False"],
+    "correctAnswer": "False",
+    "pointsValue": 10
+  },
+  {
+    "category": "TRUE_OR_FALSE",
+    "question": "Statement: Approximately 77% of New Zealand's modern population resides within the South Island.",
+    "statement": "Approximately 77% of New Zealand's modern population resides within the South Island.",
+    "options": ["True", "False"],
+    "correctAnswer": "False",
+    "pointsValue": 10
+  },
+  {
+    "category": "TRUE_OR_FALSE",
+    "question": "Statement: As massive glaciers move and erode mountain landscapes, they slice out distinct V-shaped valleys.",
+    "statement": "As massive glaciers move and erode mountain landscapes, they slice out distinct V-shaped valleys.",
+    "options": ["True", "False"],
+    "correctAnswer": "False",
+    "pointsValue": 10
+  },
+  {
+    "category": "TRUE_OR_FALSE",
+    "question": "Statement: As your altitude steadily climbs higher up a mountain, regional vegetation typically grows taller and denser.",
+    "statement": "As your altitude steadily climbs higher up a mountain, regional vegetation typically grows taller and denser.",
+    "options": ["True", "False"],
+    "correctAnswer": "False",
+    "pointsValue": 10
+  }
+]
