@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 115-Mark Gauntlet | Year 9 Science Revision</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="An interactive, high-stakes Year 9 General Science revision game. Face 12 questions across 4 sectors with a ticking timer and limited lives to conquer the 115-Mark Gauntlet.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Animated Background Canvas or Glows -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Main Game Container -->
+  <main id="game-container" class="game-container">
+    
+    <!-- Top HUD (Heads Up Display) - Hidden on welcome screen, visible during gameplay -->
+    <header id="game-header" class="game-header hidden">
+      <div class="hud-top">
+        <div class="hud-brand">
+          <span class="hud-title">THE GAUNTLET</span>
+          <span id="sector-badge" class="sector-badge sector-1">SECTOR 1: BIOLOGY HUB</span>
+        </div>
+        
+        <div class="hud-stats">
+          <!-- Lives Pool -->
+          <div class="hud-item lives-container">
+            <span class="hud-label">LIVES</span>
+            <div id="lives-display" class="lives-display">
+              <!-- Inline Heart SVGs dynamically managed -->
+              <svg class="heart-icon active" viewBox="0 0 24 24" id="heart-1"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <svg class="heart-icon active" viewBox="0 0 24 24" id="heart-2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <svg class="heart-icon active" viewBox="0 0 24 24" id="heart-3"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+          </div>
+          
+          <!-- Timer Matrix -->
+          <div class="hud-item timer-container">
+            <span class="hud-label">TIME REMAINING</span>
+            <span id="countdown-timer" class="countdown-timer">12:00</span>
+          </div>
+          
+          <!-- Score Indicator -->
+          <div class="hud-item score-container">
+            <span class="hud-label">TOTAL MARKS</span>
+            <span id="score-display" class="score-display">0 <span class="score-total">/ 115</span></span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Progress Bar Track -->
+      <div class="progress-bar-container">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        <div class="progress-steps">
+          <div class="step-marker" style="left: 0%;">Start</div>
+          <div class="step-marker" style="left: 25%;">Bio</div>
+          <div class="step-marker" style="left: 50%;">Chem</div>
+          <div class="step-marker" style="left: 75%;">Phys</div>
+          <div class="step-marker" style="left: 100%;">Victory</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Welcome / Landing Layout -->
+    <section id="welcome-screen" class="game-card welcome-card">
+      <div class="card-glow"></div>
+      <div class="badge-accent">YEAR 9 REVISION CHALLENGE</div>
+      <h1 class="welcome-title">THE <span class="accent-text">115-MARK</span> GAUNTLET</h1>
+      <p class="welcome-tagline">
+        Four sectors. Twelve challenges. A ticking clock. Do you have the scientific expertise to survive?
+      </p>
+      
+      <div class="rules-container">
+        <h3>Rules of the Gauntlet:</h3>
+        <ul>
+          <li>
+            <svg class="rule-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span><strong>The Sector Timer:</strong> You have a strict <strong>12-minute block</strong> for each sector. If it hits zero, it's instant failure. Entering a new sector resets your clock.</span>
+          </li>
+          <li>
+            <svg class="rule-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            <span><strong>The Lives Pool:</strong> You start with <strong>3 lives</strong>. A single incorrect answer instantly strips 1 life. Reach 0 lives, and you fail.</span>
+          </li>
+          <li>
+            <svg class="rule-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
+            <span><strong>The Marks:</strong> Total points sum to exactly <strong>115 marks</strong>. Each sector features 3 questions with increasing point values.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sectors-preview">
+        <div class="sector-mini-card s1">
+          <span class="sec-num">01</span>
+          <span class="sec-name">Biology Hub</span>
+          <span class="sec-desc">Cells, Organs & Testing</span>
+        </div>
+        <div class="sector-mini-card s2">
+          <span class="sec-num">02</span>
+          <span class="sec-name">Chemistry Playground</span>
+          <span class="sec-desc">Valence, Reactivity & Gases</span>
+        </div>
+        <div class="sector-mini-card s3">
+          <span class="sec-num">03</span>
+          <span class="sec-name">Physics Lab</span>
+          <span class="sec-desc">Speed, Circuits & Current</span>
+        </div>
+        <div class="sector-mini-card s4">
+          <span class="sec-num">04</span>
+          <span class="sec-name">Methodology Skills</span>
+          <span class="sec-desc">Variables, Apparatus & Data</span>
+        </div>
+      </div>
+
+      <button id="btn-begin" class="btn btn-primary btn-large">
+        <span>BEGIN GAUNTLET</span>
+        <svg class="btn-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      </button>
+    </section>
+
+    <!-- Question Screen Layout (Initially Hidden) -->
+    <section id="question-screen" class="game-card question-card hidden">
+      <div class="card-glow" id="question-card-glow"></div>
+      
+      <!-- Question Header: Question index and Marks -->
+      <div class="question-meta-row">
+        <div class="question-tracker">
+          QUESTION <span id="current-question-num">1</span> OF 3 IN SECTOR
+        </div>
+        <div class="question-value" id="question-value-badge">
+          +5 MARKS
+        </div>
+      </div>
+
+      <!-- Question Text -->
+      <h2 id="question-text" class="question-text">
+        Loading question content...
+      </h2>
+
+      <!-- Multiple Choice Options -->
+      <div id="options-container" class="options-container">
+        <!-- Dynmically loaded option buttons -->
+      </div>
+    </section>
+
+    <!-- Instant Feedback Panel (Overlay or Drawer styled to look clean and premium) -->
+    <section id="feedback-panel" class="feedback-panel hidden">
+      <div class="feedback-overlay"></div>
+      <div class="feedback-content">
+        <div class="feedback-status-header">
+          <div id="feedback-status-icon" class="status-icon">
+            <!-- Dynamic SVG icon (Checkmark or Alert) -->
+          </div>
+          <h2 id="feedback-status-title" class="feedback-title">Correct!</h2>
+        </div>
+        
+        <div id="feedback-score-notice" class="feedback-score-notice">
+          +5 Marks Added
+        </div>
+
+        <p id="feedback-explanation" class="feedback-explanation">
+          Detailed scientific explanation of why the answer is correct or incorrect.
+        </p>
+
+        <button id="btn-feedback-continue" class="btn btn-accent btn-large">
+          <span>CONTINUE GAUNTLET</span>
+          <svg class="btn-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Game Over Screen -->
+    <section id="game-over-screen" class="game-card result-card game-over-card hidden">
+      <div class="card-glow glow-red"></div>
+      <div class="result-icon-container status-lost">
+        <svg class="result-icon animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h1 class="result-title">GAUNTLET FAILED</h1>
+      <p id="game-over-reason" class="result-summary">
+        You ran out of lives. The Gauntlet has defeated you.
+      </p>
+
+      <div class="stats-summary-grid">
+        <div class="stat-box">
+          <span class="stat-value" id="go-score">0</span>
+          <span class="stat-label">Marks Acquired</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value" id="go-sector">Sector 1</span>
+          <span class="stat-label">Sector Reached</span>
+        </div>
+      </div>
+
+      <button id="btn-restart-go" class="btn btn-danger btn-large">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.306 9m-4.306-4h.01"></path></svg>
+        <span>RETRY GAUNTLET</span>
+      </button>
+    </section>
+
+    <!-- Victory Screen -->
+    <section id="victory-screen" class="game-card result-card victory-card hidden">
+      <div class="card-glow glow-victory"></div>
+      <div class="result-icon-container status-win">
+        <svg class="result-icon trophy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4c0 2.62 2.35 4.96 5 5v2a3 3 0 01-3 3H6a1 1 0 000 2h12a1 1 0 000-2h-1a3 3 0 01-3-3v-2c2.65-.04 5-2.38 5-5V3H5zm14 4h-3v-2h3v2zM5 5h3v2H5V5z"></path></svg>
+      </div>
+      <h1 class="result-title">GAUNTLET CONQUERED!</h1>
+      <p class="result-summary">
+        Incredible work! You successfully navigated all four scientific sectors and survived the gauntlet.
+      </p>
+
+      <div class="stats-summary-grid">
+        <div class="stat-box">
+          <span class="stat-value accent-text" id="vic-score">115</span>
+          <span class="stat-label">Final Score / 115</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value" id="vic-lives">3 / 3</span>
+          <span class="stat-label">Lives Remaining</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value" id="vic-time">04:25</span>
+          <span class="stat-label">Average Time / Sector</span>
+        </div>
+      </div>
+
+      <div class="victory-message-container">
+        <h3>Science Master Rank Achieved</h3>
+        <p id="vic-feedback-comment">You scored perfectly on Year 9 metrics! Your understanding of cell structures, chemical reactions, physical circuits, and scientific methodology is outstanding.</p>
+      </div>
+
+      <button id="btn-restart-vic" class="btn btn-primary btn-large">
+        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.306 9m-4.306-4h.01"></path></svg>
+        <span>REENTER GAUNTLET</span>
+      </button>
+    </section>
+
+  </main>
+
+  <footer class="game-footer">
+    <p>The 115-Mark Gauntlet &copy; 2026. Designed for Year 9 General Science Excellence.</p>
+  </footer>
+
+  <!-- Web Audio Synth & Gameplay Logic Script -->
+  <script src="app.js"></script>
+</body>
+</html>
