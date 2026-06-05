@@ -6,6 +6,8 @@ export default function AnswerInput({ value, onChange, onSubmit, disabled, place
   // Helper characters for easy mobile typing
   const mathSymbols = [
     { label: 'π', value: '\\pi' },
+    { label: '²', value: '²' },
+    { label: '³', value: '³' },
     { label: '^', value: '^' },
     { label: '×', value: ' \\times ' },
     { label: '/', value: '/' },

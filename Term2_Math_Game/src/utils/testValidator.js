@@ -68,6 +68,12 @@ const tests = [
   { qId: 14, user: '288\\pi', correct: '288\\pi', expected: true },
   { qId: 14, user: '288 pi', correct: '288\\pi', expected: true },
   { qId: 14, user: '288*pi', correct: '288\\pi', expected: true },
+
+  // Unicode superscript ² and ³ checks
+  { qId: 3, user: '5xy - 3x² - 5y', correct: '5xy - 3x^2 - 5y', expected: true },
+  { qId: 6, user: '2³ \\times 3 \\times 7', correct: '2^3 \\times 3 \\times 7', expected: true },
+  { qId: 6, user: '2³ * 3 * 7', correct: '2^3 \\times 3 \\times 7', expected: true },
+  { qId: 13, user: 't(g² - 2)', correct: 't(g^2 - 2)', expected: true },
 ];
 
 let failed = 0;

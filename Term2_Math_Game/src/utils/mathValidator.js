@@ -149,6 +149,9 @@ export function normalizeMathString(str) {
 
   let normalized = str.trim();
 
+  // Normalize Unicode superscript squared and cubed symbols
+  normalized = normalized.replace(/²/g, '^2').replace(/³/g, '^3');
+
   // Strip dollar signs and standard currency
   normalized = normalized.replace(/\$/g, '');
 
@@ -212,11 +215,14 @@ function insertImplicitMultiplication(str) {
  */
 function validatePrimeFactors(userStr) {
   try {
+    // Normalize Unicode superscript squared and cubed symbols
+    let clean = userStr.replace(/²/g, '^2').replace(/³/g, '^3');
+
     // Normalize multiplication symbols
-    let clean = userStr.replace(/\s+/g, '')
-                        .replace(/\\times/g, '*')
-                        .replace(/x/g, '*')
-                        .replace(/·/g, '*');
+    clean = clean.replace(/\s+/g, '')
+                 .replace(/\\times/g, '*')
+                 .replace(/x/g, '*')
+                 .replace(/·/g, '*');
     
     // Split by multiplication
     const parts = clean.split('*');
