@@ -2,35 +2,36 @@ import React, { useState, useRef } from 'react';
 import BoardMap, { BOARD_SPACES } from './BoardMap';
 import CardModal from './CardModal';
 import questionsData from '../../data/questions.json';
-import { Trophy, Dice5, RotateCcw, Award, Compass, MapPin } from 'lucide-react';
+import { Trophy, Dice5, RotateCcw, Award, Compass, MapPin, Target, TrendingUp, CheckCircle2, XCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export default function GameScreen({ initialPlayers, onReset }) {
-  const [players, setPlayers] = useState(
-    initialPlayers.map(p => ({ ...p, position: 1, gkp: 0 }))
-  );
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+export default function GameScreen({ player: initialPlayer, onReset }) {
+  // Single-player state
+  const [player, setPlayer] = useState({ ...initialPlayer, position: 1, gkp: 0 });
   const [diceValue, setDiceValue] = useState(1);
   const [isRolling, setIsRolling] = useState(false);
   const [rollResult, setRollResult] = useState(null);
   const [isMoving, setIsMoving] = useState(false);
 
-  // Quiz Card states
+  // Quiz card states
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [activeSpaceName, setActiveSpaceName] = useState('');
   const [usedQuestionKeys, setUsedQuestionKeys] = useState([]);
 
-  // Game over state
-  const [gameOver, setGameOver] = useState(false);
-  const [gameWinner, setGameWinner] = useState(null);
+  // Stats tracking
+  const [questionsAnswered, setQuestionsAnswered] = useState(0);
+  const [questionsCorrect, setQuestionsCorrect] = useState(0);
 
-  // Refs for interval cleanup
+  // Game over
+  const [gameOver, setGameOver] = useState(false);
+
+  // Ref for movement interval cleanup
   const moveIntervalRef = useRef(null);
 
-  // Activity feed logs
+  // Activity feed
   const [logs, setLogs] = useState([
-    { id: 1, text: "Game started! Cape Reinga is the starting point. Roll the die to begin.", type: "info" }
+    { id: 1, text: "Revision session started! Roll the die to begin your journey from Cape Reinga.", type: "info" }
   ]);
 
   const addLog = (text, type = "info") => {
@@ -38,13 +39,13 @@ export default function GameScreen({ initialPlayers, onReset }) {
     console.log(`[KiwiDrift] ${type.toUpperCase()}: ${text}`);
   };
 
-  // ── Die Roll (1–4 range) ────────────────────────
+  // ── Die Roll (1–4) ──────────────────────────────
   const handleRollDie = () => {
     if (isRolling || isMoving || showQuestionModal || gameOver) return;
 
     setIsRolling(true);
     setRollResult(null);
-    addLog(`${players[currentPlayerIndex].name} is rolling the die…`, "roll");
+    addLog("Rolling the die…", "roll");
 
     let counter = 0;
     const interval = setInterval(() => {
@@ -52,153 +53,109 @@ export default function GameScreen({ initialPlayers, onReset }) {
       counter++;
       if (counter > 10) {
         clearInterval(interval);
-
         const roll = Math.floor(Math.random() * 4) + 1;
         setDiceValue(roll);
         setRollResult(roll);
         setIsRolling(false);
-
-        addLog(`${players[currentPlayerIndex].name} rolled a ${roll}!`, "move");
-        animatePlayerMovement(currentPlayerIndex, roll);
+        addLog(`Rolled a ${roll}!`, "move");
+        animateMovement(roll);
       }
     }, 90);
   };
 
-  // ── Step-by-step tile movement ──────────────────
-  const animatePlayerMovement = (playerIndex, steps) => {
+  // ── Step-by-step movement ───────────────────────
+  const animateMovement = (steps) => {
     setIsMoving(true);
-    const startPos = players[playerIndex].position;
-    const targetPosition = Math.min(20, startPos + steps);
+    const startPos = player.position;
+    const targetPos = Math.min(20, startPos + steps);
     let currentPos = startPos;
 
     moveIntervalRef.current = setInterval(() => {
       currentPos += 1;
-      if (currentPos <= targetPosition) {
-        setPlayers(prev => {
-          const updated = prev.map((p, i) =>
-            i === playerIndex ? { ...p, position: currentPos } : p
-          );
-          return updated;
-        });
+      if (currentPos <= targetPos) {
+        setPlayer(prev => ({ ...prev, position: currentPos }));
       }
-
-      if (currentPos >= targetPosition) {
+      if (currentPos >= targetPos) {
         clearInterval(moveIntervalRef.current);
         moveIntervalRef.current = null;
         setIsMoving(false);
 
-        const landedSpace = BOARD_SPACES[targetPosition - 1];
-        addLog(`${players[playerIndex].name} landed on Space ${targetPosition} — ${landedSpace.name}.`, "move");
+        const space = BOARD_SPACES[targetPos - 1];
+        addLog(`Landed on Space ${targetPos} — ${space.name}.`, "move");
 
-        // ── Check for game end (reached tile 20) ──
-        if (targetPosition >= 20) {
-          setTimeout(() => handleGameEnd(playerIndex), 400);
+        // Game end check
+        if (targetPos >= 20) {
+          setTimeout(() => handleGameEnd(), 400);
           return;
         }
 
-        // ── Odd-numbered tile → launch card challenge ──
-        if (targetPosition % 2 === 1) {
-          setTimeout(() => {
-            triggerCardChallenge(playerIndex, targetPosition);
-          }, 500);
+        // Odd tile → card challenge; even tile → continue
+        if (targetPos % 2 === 1) {
+          setTimeout(() => triggerCard(targetPos), 500);
         } else {
-          // Even tile → no challenge, auto-advance turn
-          addLog(`Space ${targetPosition} is a rest stop — no challenge. Turn passes.`, "info");
-          setTimeout(() => advanceToNextPlayer(), 800);
+          addLog(`Space ${targetPos} is a rest stop — no question this time.`, "info");
         }
       }
     }, 220);
   };
 
-  // ── Pick a question matching the space's curriculum category ──
-  const triggerCardChallenge = (playerIndex, position) => {
+  // ── Draw a question card ────────────────────────
+  const triggerCard = (position) => {
     const space = BOARD_SPACES[position - 1];
     const desiredCategory = space.category;
 
-    // Build pool: prefer unused questions in the right category
     let pool = questionsData.filter(q => q.category === desiredCategory && !usedQuestionKeys.includes(q.question));
     if (pool.length === 0) pool = questionsData.filter(q => q.category === desiredCategory);
     if (pool.length === 0) pool = questionsData.filter(q => !usedQuestionKeys.includes(q.question));
-    if (pool.length === 0) {
-      pool = [...questionsData];
-      setUsedQuestionKeys([]);
-    }
+    if (pool.length === 0) { pool = [...questionsData]; setUsedQuestionKeys([]); }
 
-    const selectedQ = pool[Math.floor(Math.random() * pool.length)];
-    setUsedQuestionKeys(prev => [...prev, selectedQ.question]);
-    setActiveQuestion(selectedQ);
+    const q = pool[Math.floor(Math.random() * pool.length)];
+    setUsedQuestionKeys(prev => [...prev, q.question]);
+    setActiveQuestion(q);
     setActiveSpaceName(space.name);
     setShowQuestionModal(true);
 
-    const catLabel =
-      selectedQ.category === 'LEES_PUSH_PULL' ? 'Migration' :
-      selectedQ.category === 'TECTONIC_RING_OF_FIRE' ? 'Tectonic' : 'True/False';
-
-    addLog(`${players[playerIndex].name} drew a ${catLabel} card at ${space.name}!`, "card");
+    const catLabel = q.category === 'LEES_PUSH_PULL' ? 'Migration' :
+                     q.category === 'TECTONIC_RING_OF_FIRE' ? 'Tectonic' : 'True/False';
+    addLog(`Drew a ${catLabel} card at ${space.name}.`, "card");
   };
 
-  // ── Unified modal close handler ─────────────────
+  // ── Modal close handler ─────────────────────────
   const handleModalClose = ({ correct, points }) => {
-    const playerName = players[currentPlayerIndex].name;
+    setQuestionsAnswered(prev => prev + 1);
 
     if (correct) {
-      setPlayers(prev => prev.map((p, i) =>
-        i === currentPlayerIndex ? { ...p, gkp: p.gkp + points } : p
-      ));
-      addLog(`Correct! ${playerName} earned +${points} GKP.`, "success");
-      console.log(`[KiwiDrift] SCORE_UPDATE: ${playerName} +${points} GKP → total ${players[currentPlayerIndex].gkp + points}`);
+      setPlayer(prev => ({ ...prev, gkp: prev.gkp + points }));
+      setQuestionsCorrect(prev => prev + 1);
+      addLog(`Correct! +${points} GKP earned.`, "success");
+      console.log(`[KiwiDrift] SCORE_UPDATE: +${points} GKP → total ${player.gkp + points}`);
     } else {
-      addLog(`Incorrect. No GKP awarded to ${playerName}.`, "error");
+      addLog("Incorrect — review the answer shown and try to remember it!", "error");
     }
 
     setShowQuestionModal(false);
     setActiveQuestion(null);
 
-    // Check for finish after answering
-    if (players[currentPlayerIndex].position >= 20) {
-      setTimeout(() => handleGameEnd(currentPlayerIndex), 300);
-    } else {
-      setTimeout(() => advanceToNextPlayer(), 300);
+    if (player.position >= 20) {
+      setTimeout(() => handleGameEnd(), 300);
     }
   };
 
-  // ── Advance to next player in the turn cycle ────
-  const advanceToNextPlayer = () => {
-    setCurrentPlayerIndex(prev => {
-      const next = (prev + 1) % players.length;
-      console.log(`[KiwiDrift] TURN_CYCLE: Advancing to Player ${next + 1} (${players[next].name})`);
-      return next;
-    });
-  };
-
-  // ── End game logic ──────────────────────────────
-  const handleGameEnd = (finisherIndex) => {
-    const bonusPoints = 50;
-    const finisher = players[finisherIndex];
-    addLog(`${finisher.name} reached Bluff (Space 20)! Speed bonus: +${bonusPoints} GKP!`, "finish");
-
-    const finalPlayers = players.map((p, idx) =>
-      idx === finisherIndex ? { ...p, gkp: p.gkp + bonusPoints } : p
-    );
-    setPlayers(finalPlayers);
-
-    const winner = finalPlayers.reduce((best, p) => p.gkp > best.gkp ? p : best, finalPlayers[0]);
-    setGameWinner(winner);
+  // ── Game end ────────────────────────────────────
+  const handleGameEnd = () => {
+    const bonus = 50;
+    addLog(`Reached Bluff! Speed bonus: +${bonus} GKP.`, "finish");
+    setPlayer(prev => ({ ...prev, gkp: prev.gkp + bonus }));
     setGameOver(true);
-
-    console.log('[KiwiDrift] GAME_OVER — Final standings:',
-      finalPlayers.map(p => `${p.name}: ${p.gkp} GKP`).join(' | ')
-    );
+    console.log(`[KiwiDrift] GAME_OVER — Final GKP: ${player.gkp + bonus}`);
     triggerConfetti();
   };
 
-  // ── Confetti burst ──────────────────────────────
   const triggerConfetti = () => {
     const duration = 5000;
     const end = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
     const rand = (a, b) => Math.random() * (b - a) + a;
-
     const interval = setInterval(() => {
       if (Date.now() > end) return clearInterval(interval);
       const n = 50 * ((end - Date.now()) / duration);
@@ -207,15 +164,16 @@ export default function GameScreen({ initialPlayers, onReset }) {
     }, 250);
   };
 
-  // ── Derived state ───────────────────────────────
-  const sortedLeaderboard = [...players].sort((a, b) => b.gkp - a.gkp);
-  const activePlayer = players[currentPlayerIndex];
+  // ── Derived ─────────────────────────────────────
   const dieDisabled = isRolling || isMoving || showQuestionModal || gameOver;
+  const accuracy = questionsAnswered > 0 ? Math.round((questionsCorrect / questionsAnswered) * 100) : 0;
+  // Wrap single player in array for BoardMap compatibility
+  const playersArray = [player];
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-6 flex flex-col gap-6 relative">
 
-      {/* ── Top Bar ────────────────────────────────── */}
+      {/* ── Top Bar ──────────────────────────────── */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900/60 backdrop-blur-md border border-slate-800/80 rounded-2xl p-4 shadow-xl">
         <div className="flex items-center gap-3">
           <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-2.5 rounded-xl shadow-lg shadow-emerald-500/20">
@@ -223,46 +181,40 @@ export default function GameScreen({ initialPlayers, onReset }) {
           </div>
           <div>
             <h1 className="text-xl md:text-2xl font-black text-white tracking-wide">The Great Kiwi Drift</h1>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Aotearoa Geography Revision Game</p>
+            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Solo Revision Session</p>
           </div>
         </div>
-        <button
-          onClick={onReset}
-          className="flex items-center gap-2 px-4 py-2 border border-slate-700 bg-slate-800/50 hover:bg-slate-700 hover:border-slate-500 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition-all duration-300 hover:shadow-lg active:scale-95"
-        >
-          <RotateCcw className="w-4 h-4" /> Reset Lobby
+        <button onClick={onReset} className="flex items-center gap-2 px-4 py-2 border border-slate-700 bg-slate-800/50 hover:bg-slate-700 hover:border-slate-500 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition-all duration-300 hover:shadow-lg active:scale-95">
+          <RotateCcw className="w-4 h-4" /> Back to Menu
         </button>
       </div>
 
-      {/* ── Main Grid Layout ───────────────────────── */}
+      {/* ── Main Grid ────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-        {/* Board + Control Dock (2/3) */}
+        {/* Board + Controls (2/3) */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-
-          {/* Board Map */}
           <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-3xl p-5 shadow-xl">
-            <BoardMap players={players} currentPlayerIndex={currentPlayerIndex} />
+            <BoardMap players={playersArray} currentPlayerIndex={0} />
           </div>
 
-          {/* ── Action Control Dock ─────────────────── */}
+          {/* ── Control Dock ────────────────────────── */}
           <div className="bg-gradient-to-r from-slate-900/80 to-slate-950/80 backdrop-blur-md border border-slate-800/60 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
 
-            {/* Turn status */}
+            {/* Player info */}
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg text-white shadow-xl ${activePlayer.colorClass}`}>
-                {activePlayer.name[0].toUpperCase()}
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg text-white shadow-xl ${player.colorClass}`}>
+                {player.name[0].toUpperCase()}
               </div>
               <div>
-                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Active Player</span>
-                <h2 className="text-xl font-extrabold text-white leading-tight">{activePlayer.name}'s Turn</h2>
+                <h2 className="text-xl font-extrabold text-white leading-tight">{player.name}</h2>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  Space <strong className="text-white">{activePlayer.position}</strong> / 20
+                  Space <strong className="text-white">{player.position}</strong> / 20
                 </p>
               </div>
             </div>
 
-            {/* Roll Die button */}
+            {/* Roll Die */}
             <div className="flex flex-col items-center gap-2">
               <button
                 onClick={handleRollDie}
@@ -283,74 +235,71 @@ export default function GameScreen({ initialPlayers, onReset }) {
               <span className="text-[10px] text-slate-600 font-semibold">Range: 1 – 4</span>
             </div>
 
-            {/* Dice Value Display */}
+            {/* Dice graphic */}
             <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/80 shadow-inner relative overflow-hidden">
-              <span className={`text-3xl font-black text-white ${isRolling ? 'animate-bounce text-emerald-400' : ''}`}>
-                {diceValue}
-              </span>
+              <span className={`text-3xl font-black text-white ${isRolling ? 'animate-bounce text-emerald-400' : ''}`}>{diceValue}</span>
               <div className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-slate-600"></div>
               <div className="absolute bottom-1 left-1 w-1.5 h-1.5 rounded-full bg-slate-600"></div>
             </div>
           </div>
         </div>
 
-        {/* ── Sidebar (Leaderboard + Logs) ──────────── */}
+        {/* ── Sidebar: Score + Stats + Logs ─────────── */}
         <div className="flex flex-col gap-6">
 
-          {/* Leaderboard */}
-          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-3xl p-6 shadow-xl flex flex-col gap-4">
+          {/* Score Card */}
+          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-3xl p-6 shadow-xl flex flex-col gap-5">
             <div className="flex items-center gap-2 pb-3 border-b border-slate-800/80">
               <Trophy className="w-5 h-5 text-yellow-400" />
-              <h2 className="text-md font-bold text-white uppercase tracking-wider">Scoreboard (GKP)</h2>
+              <h2 className="text-md font-bold text-white uppercase tracking-wider">Your Score</h2>
             </div>
 
-            <div className="flex flex-col gap-3">
-              {sortedLeaderboard.map((player, index) => {
-                const isCurrent = activePlayer.id === player.id;
-                let rankBadge = "bg-slate-800 text-slate-400";
-                if (index === 0) rankBadge = "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30";
-                else if (index === 1) rankBadge = "bg-slate-300/20 text-slate-200 border border-slate-300/30";
-                else if (index === 2) rankBadge = "bg-amber-700/20 text-amber-500 border border-amber-700/30";
+            {/* GKP Score */}
+            <div className="flex items-center justify-between p-4 rounded-xl bg-yellow-500/5 border border-yellow-500/15">
+              <div className="flex items-center gap-3">
+                <Award className="w-8 h-8 text-yellow-400" />
+                <div>
+                  <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">Geographic Knowledge Points</span>
+                  <span className="text-3xl font-black text-yellow-400 leading-tight">{player.gkp}</span>
+                </div>
+              </div>
+            </div>
 
-                return (
-                  <div
-                    key={player.id}
-                    className={`flex items-center justify-between p-3.5 rounded-xl border transition-all duration-300 ${
-                      isCurrent ? 'border-emerald-500/40 bg-emerald-950/10 shadow-md shadow-emerald-500/5' : 'border-slate-800/80 bg-slate-900/30'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black ${rankBadge}`}>{index + 1}</span>
-                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-white shadow-md ${player.colorClass}`}>
-                        {player.name[0].toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <h3 className="text-sm font-bold text-white leading-none">{player.name}</h3>
-                          {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>}
-                        </div>
-                        <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-0.5 mt-1">
-                          <MapPin className="w-3 h-3 text-slate-500" /> Space {player.position}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-xs text-slate-400 font-semibold block uppercase tracking-wider">Score</span>
-                      <span className="text-sm font-extrabold text-yellow-400 flex items-center gap-0.5 justify-end">
-                        <Award className="w-4 h-4" /> {player.gkp}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+            {/* Stats Row */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-col items-center p-3 rounded-xl bg-slate-800/30 border border-slate-800/60">
+                <MapPin className="w-4 h-4 text-cyan-400 mb-1" />
+                <span className="text-lg font-black text-white">{player.position}</span>
+                <span className="text-[9px] font-bold text-slate-500 uppercase">Position</span>
+              </div>
+              <div className="flex flex-col items-center p-3 rounded-xl bg-slate-800/30 border border-slate-800/60">
+                <Target className="w-4 h-4 text-violet-400 mb-1" />
+                <span className="text-lg font-black text-white">{questionsAnswered}</span>
+                <span className="text-[9px] font-bold text-slate-500 uppercase">Questions</span>
+              </div>
+              <div className="flex flex-col items-center p-3 rounded-xl bg-slate-800/30 border border-slate-800/60">
+                <TrendingUp className="w-4 h-4 text-emerald-400 mb-1" />
+                <span className="text-lg font-black text-white">{accuracy}%</span>
+                <span className="text-[9px] font-bold text-slate-500 uppercase">Accuracy</span>
+              </div>
+            </div>
+
+            {/* Correct / Incorrect tally */}
+            <div className="flex gap-3">
+              <div className="flex-1 flex items-center gap-2 p-2.5 rounded-lg bg-emerald-950/15 border border-emerald-800/20">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="text-xs font-bold text-emerald-300">{questionsCorrect} Correct</span>
+              </div>
+              <div className="flex-1 flex items-center gap-2 p-2.5 rounded-lg bg-rose-950/15 border border-rose-800/20">
+                <XCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                <span className="text-xs font-bold text-rose-300">{questionsAnswered - questionsCorrect} Incorrect</span>
+              </div>
             </div>
           </div>
 
           {/* Activity Logs */}
-          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-3xl p-6 shadow-xl flex flex-col gap-3 min-h-[250px] max-h-[350px]">
-            <h2 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-800/80">
-              Drift Activity Log
-            </h2>
+          <div className="bg-slate-900/40 backdrop-blur-md border border-slate-800/60 rounded-3xl p-6 shadow-xl flex flex-col gap-3 min-h-[220px] max-h-[320px]">
+            <h2 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-800/80">Activity Log</h2>
             <div className="flex-grow overflow-y-auto pr-1 flex flex-col gap-2.5 text-xs text-slate-300">
               {logs.map((log) => {
                 let cls = "text-slate-300";
@@ -359,7 +308,6 @@ export default function GameScreen({ initialPlayers, onReset }) {
                 else if (log.type === "finish") cls = "text-yellow-400 font-extrabold";
                 else if (log.type === "move") cls = "text-cyan-400";
                 else if (log.type === "card") cls = "text-violet-400";
-
                 return (
                   <div key={log.id} className="leading-relaxed border-b border-slate-800/20 pb-1.5">
                     <span className="text-slate-500 mr-1.5">»</span>
@@ -372,18 +320,18 @@ export default function GameScreen({ initialPlayers, onReset }) {
         </div>
       </div>
 
-      {/* ── Card Modal Overlay ──────────────────────── */}
+      {/* ── Card Modal ──────────────────────────── */}
       {showQuestionModal && activeQuestion && (
         <CardModal
           question={activeQuestion}
-          player={activePlayer}
+          player={player}
           onClose={handleModalClose}
           spaceName={activeSpaceName}
         />
       )}
 
-      {/* ── Game Over Screen ───────────────────────── */}
-      {gameOver && gameWinner && (
+      {/* ── Game Complete Screen ─────────────────── */}
+      {gameOver && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md animate-fade-in">
           <div className="w-full max-w-lg overflow-hidden border border-yellow-500/30 rounded-3xl bg-slate-900 p-8 text-center shadow-2xl animate-scale-in">
             <div className="flex justify-center mb-6">
@@ -392,24 +340,30 @@ export default function GameScreen({ initialPlayers, onReset }) {
               </div>
             </div>
 
-            <span className="text-xs font-black uppercase tracking-widest text-yellow-400">Ultimate Kiwi Geographer</span>
-            <h2 className="text-3xl font-black text-white mt-2 mb-4">{gameWinner.name} Wins!</h2>
+            <span className="text-xs font-black uppercase tracking-widest text-yellow-400">Revision Complete</span>
+            <h2 className="text-3xl font-black text-white mt-2 mb-2">Well Done, {player.name}!</h2>
+            <p className="text-slate-400 text-sm mb-6">You completed the Kiwi Trail from Cape Reinga to Bluff.</p>
 
-            <p className="text-slate-400 text-sm max-w-sm mx-auto mb-6">
-              {gameWinner.name} conquered the Kiwi Trail with <strong className="text-yellow-400 font-bold">{gameWinner.gkp} GKP</strong>!
-            </p>
-
-            <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800/80 mb-8 max-w-xs mx-auto">
-              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Final Standings</h4>
-              <div className="flex flex-col gap-2.5">
-                {[...players].sort((a, b) => b.gkp - a.gkp).map((p, idx) => (
-                  <div key={p.id} className="flex justify-between items-center text-xs">
-                    <span className="font-semibold text-slate-300 flex items-center gap-1.5">
-                      <span className="text-slate-500">#{idx + 1}</span> {p.name}
-                    </span>
-                    <span className="font-bold text-yellow-400">{p.gkp} GKP</span>
-                  </div>
-                ))}
+            {/* Final Stats */}
+            <div className="bg-slate-950/50 rounded-2xl p-5 border border-slate-800/80 mb-8 max-w-sm mx-auto">
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-4">Session Results</h4>
+              <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                  <span className="text-3xl font-black text-yellow-400">{player.gkp}</span>
+                  <span className="block text-[10px] font-bold text-slate-500 uppercase mt-1">Total GKP</span>
+                </div>
+                <div>
+                  <span className="text-3xl font-black text-emerald-400">{accuracy}%</span>
+                  <span className="block text-[10px] font-bold text-slate-500 uppercase mt-1">Accuracy</span>
+                </div>
+                <div>
+                  <span className="text-3xl font-black text-cyan-400">{questionsCorrect}</span>
+                  <span className="block text-[10px] font-bold text-slate-500 uppercase mt-1">Correct</span>
+                </div>
+                <div>
+                  <span className="text-3xl font-black text-rose-400">{questionsAnswered - questionsCorrect}</span>
+                  <span className="block text-[10px] font-bold text-slate-500 uppercase mt-1">Incorrect</span>
+                </div>
               </div>
             </div>
 
@@ -417,7 +371,7 @@ export default function GameScreen({ initialPlayers, onReset }) {
               onClick={onReset}
               className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black py-3 px-8 rounded-xl flex items-center justify-center gap-2 mx-auto transition-all duration-300 shadow-xl shadow-emerald-500/15 hover:scale-105 active:scale-95"
             >
-              Play Again <RotateCcw className="w-4 h-4" />
+              Revise Again <RotateCcw className="w-4 h-4" />
             </button>
           </div>
         </div>
