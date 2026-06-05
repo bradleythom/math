@@ -62,12 +62,12 @@ export function getNextQuestion(answeredIds, currentDifficulty, questionBank) {
 
 /**
  * Calculates updated topic mastery.
- * - Correct: +20%
+ * - Correct: +25%
  * - Incorrect: -10%
  * - Bounds: 0% to 100%
  */
 export function updateMastery(currentMastery, isCorrect) {
-  let change = isCorrect ? 20 : -10;
+  let change = isCorrect ? 25 : -10;
   let nextMastery = currentMastery + change;
   if (nextMastery > 100) nextMastery = 100;
   if (nextMastery < 0) nextMastery = 0;
