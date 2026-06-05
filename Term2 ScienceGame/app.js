@@ -66,6 +66,7 @@ const QUESTIONS = [
     sector: 2,
     sectorName: "Chemistry Playground",
     marks: 8,
+    isHydrogenPop: true,
     question: "A student performs a gas confirmation test. When a lit wooden splint is placed at the mouth of the test tube, a distinct 'squeaky pop' sound is heard. What reaction causes this sound signature, and which gas is present?",
     options: [
       "Carbon dioxide gas extinguishing the flame",
@@ -384,6 +385,31 @@ function playVictorySound() {
 }
 
 
+// Active questions list and shuffling logic
+let activeQuestions = [];
+
+function shuffleQuestions() {
+  const sector1 = QUESTIONS.filter(q => q.sector === 1);
+  const sector2 = QUESTIONS.filter(q => q.sector === 2);
+  const sector3 = QUESTIONS.filter(q => q.sector === 3);
+  const sector4 = QUESTIONS.filter(q => q.sector === 4);
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  shuffle(sector1);
+  shuffle(sector2);
+  shuffle(sector3);
+  shuffle(sector4);
+
+  activeQuestions = [...sector1, ...sector2, ...sector3, ...sector4];
+}
+
 // 3. Game State Variables
 let gameState = {
   score: 0,
@@ -479,11 +505,30 @@ function initGame() {
 // Start Gameplay
 function startGame() {
   initAudio();
+  
+  // Reset game state completely
+  gameState.score = 0;
+  gameState.lives = 3;
+  gameState.currentQuestionIdx = 0;
+  gameState.timeLeft = 720;
+  gameState.sectorTimes = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
+  // Shuffle questions for this run
+  shuffleQuestions();
+
+  // Reset UI elements
+  updateLivesUI();
+  scoreDisplay.innerHTML = `0 <span class="score-total">/ 115</span>`;
+  progressBarFill.style.width = '0%';
+  countdownTimer.textContent = "12:00";
+  countdownTimer.classList.remove('urgent');
+
   welcomeScreen.classList.add('hidden');
+  gameOverScreen.classList.add('hidden');
+  victoryScreen.classList.add('hidden');
   questionScreen.classList.remove('hidden');
   gameHeader.classList.remove('hidden');
   
-  gameState.currentQuestionIdx = 0;
   startSectorTimer();
   loadQuestion(0);
 }
@@ -525,7 +570,7 @@ function updateTimerDisplay() {
 
 // Load current question to UI
 function loadQuestion(index) {
-  const q = QUESTIONS[index];
+  const q = activeQuestions[index];
   
   // Set theme class on body for sector shifts
   if (q.sector === 1) bodyEl.className = 'theme-biology';
@@ -557,13 +602,13 @@ function loadQuestion(index) {
 
   // Update Progress Bar: 12 questions total.
   // We represent progress as (currentQuestionIndex) / 12 * 100
-  const progressPercent = (index / QUESTIONS.length) * 100;
+  const progressPercent = (index / activeQuestions.length) * 100;
   progressBarFill.style.width = `${progressPercent}%`;
 }
 
 // Select an MCQ Option
 function selectOption(selectedIdx, btnElement) {
-  const q = QUESTIONS[gameState.currentQuestionIdx];
+  const q = activeQuestions[gameState.currentQuestionIdx];
   const allOptionButtons = optionsContainer.querySelectorAll('.option-btn');
   
   // Disable further clicks on option buttons
@@ -581,7 +626,7 @@ function selectOption(selectedIdx, btnElement) {
     btnElement.classList.add('correct-choice');
 
     // Play specific sound: Hydrogen Pop Test gets special Pop effect!
-    if (gameState.currentQuestionIdx === 4) {
+    if (q.isHydrogenPop) {
       playSqueakyPopSound();
     } else {
       playCorrectSound();
@@ -662,12 +707,12 @@ function continueGame() {
   }
 
   // 2. Track sector times
-  const q = QUESTIONS[gameState.currentQuestionIdx];
+  const q = activeQuestions[gameState.currentQuestionIdx];
   const sectorTimeElapsed = Math.floor((Date.now() - gameState.sectorStartTime) / 1000);
   gameState.sectorTimes[q.sector] += sectorTimeElapsed;
 
   // 3. Check if all questions are finished
-  if (gameState.currentQuestionIdx >= QUESTIONS.length - 1) {
+  if (gameState.currentQuestionIdx >= activeQuestions.length - 1) {
     // Victory! Set progress bar fill to 100%
     progressBarFill.style.width = '100%';
     triggerVictory();
@@ -676,7 +721,7 @@ function continueGame() {
 
   // 4. Move to next question
   const nextIdx = gameState.currentQuestionIdx + 1;
-  const nextQ = QUESTIONS[nextIdx];
+  const nextQ = activeQuestions[nextIdx];
   gameState.currentQuestionIdx = nextIdx;
 
   // If entering a new sector, reset sector timer & play sector unlocked fanfare
@@ -709,7 +754,7 @@ function triggerGameOver(reason) {
   goReasonEl.textContent = reason;
   goScoreEl.textContent = gameState.score;
   
-  const reachedQ = QUESTIONS[gameState.currentQuestionIdx];
+  const reachedQ = activeQuestions[gameState.currentQuestionIdx];
   goSectorEl.textContent = `Sector ${reachedQ.sector}: ${reachedQ.sectorName}`;
 
   // Show Game Over card
@@ -763,5 +808,6 @@ btnRestartVic.addEventListener('click', startGame);
 
 // Initialize game on load
 window.addEventListener('DOMContentLoaded', () => {
+  shuffleQuestions();
   initGame();
 });
