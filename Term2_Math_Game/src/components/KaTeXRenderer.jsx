@@ -16,7 +16,7 @@ export default function KaTeXRenderer({ text = '', className = '' }) {
     containerRef.current.innerHTML = '';
 
     // Split text using LaTeX inline math delimiter \(...\) group capture
-    const parts = text.split(/(\\\([\s\S]*?\\\\))/g);
+    const parts = text.split(/(\\\([\s\S]*?\\\))/g);
 
     parts.forEach((part) => {
       if (part.startsWith('\\(') && part.endsWith('\\)')) {
