@@ -83,18 +83,8 @@ export default function GameScreen({ player: initialPlayer, onReset }) {
         const space = BOARD_SPACES[targetPos - 1];
         addLog(`Landed on Space ${targetPos} — ${space.name}.`, "move");
 
-        // Game end check
-        if (targetPos >= 20) {
-          setTimeout(() => handleGameEnd(), 400);
-          return;
-        }
-
-        // Odd tile → card challenge; even tile → continue
-        if (targetPos % 2 === 1) {
-          setTimeout(() => triggerCard(targetPos), 500);
-        } else {
-          addLog(`Space ${targetPos} is a rest stop — no question this time.`, "info");
-        }
+        // Every tile is now an active challenge
+        setTimeout(() => triggerCard(targetPos), 500);
       }
     }, 220);
   };
@@ -102,12 +92,20 @@ export default function GameScreen({ player: initialPlayer, onReset }) {
   // ── Draw a question card ────────────────────────
   const triggerCard = (position) => {
     const space = BOARD_SPACES[position - 1];
-    const desiredCategory = space.category;
 
-    let pool = questionsData.filter(q => q.category === desiredCategory && !usedQuestionKeys.includes(q.question));
-    if (pool.length === 0) pool = questionsData.filter(q => q.category === desiredCategory);
-    if (pool.length === 0) pool = questionsData.filter(q => !usedQuestionKeys.includes(q.question));
-    if (pool.length === 0) { pool = [...questionsData]; setUsedQuestionKeys([]); }
+    // Find all questions mapped explicitly to this tile
+    const tileQuestions = questionsData.filter(q => q.tileId === position);
+
+    // Prioritize questions not yet seen from this tile's pool
+    let pool = tileQuestions.filter(q => !usedQuestionKeys.includes(q.question));
+    
+    // If all questions for this tile have been answered, allow them to repeat
+    if (pool.length === 0) {
+      pool = tileQuestions;
+    }
+    
+    // Fallback in case of data error
+    if (pool.length === 0) pool = questionsData;
 
     const q = pool[Math.floor(Math.random() * pool.length)];
     setUsedQuestionKeys(prev => [...prev, q.question]);
@@ -115,9 +113,7 @@ export default function GameScreen({ player: initialPlayer, onReset }) {
     setActiveSpaceName(space.name);
     setShowQuestionModal(true);
 
-    const catLabel = q.category === 'LEES_PUSH_PULL' ? 'Migration' :
-                     q.category === 'TECTONIC_RING_OF_FIRE' ? 'Tectonic' : 'True/False';
-    addLog(`Drew a ${catLabel} card at ${space.name}.`, "card");
+    addLog(`Drew a challenge at ${space.name}: ${q.topic}`, "card");
   };
 
   // ── Modal close handler ─────────────────────────

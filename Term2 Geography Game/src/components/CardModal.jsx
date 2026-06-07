@@ -71,37 +71,9 @@ export default function CardModal({ question, player, onClose, spaceName }) {
     onClose({ correct: false, points: 0 });
   };
 
-  // ── Category styling helper ──────────────────────
-  const getCategoryDetails = (category) => {
-    switch (category) {
-      case 'LEES_PUSH_PULL':
-        return {
-          title: "Migration & Human Geography",
-          icon: <Compass className="w-5 h-5 text-teal-400" />,
-          badgeClass: "bg-teal-500/20 text-teal-300 border-teal-500/30"
-        };
-      case 'TECTONIC_RING_OF_FIRE':
-        return {
-          title: "Physical Processes & Relief",
-          icon: <ShieldQuestion className="w-5 h-5 text-red-400" />,
-          badgeClass: "bg-red-500/20 text-red-300 border-red-500/30"
-        };
-      case 'TRUE_OR_FALSE':
-        return {
-          title: "Quick-Fire Facts (T/F)",
-          icon: <Award className="w-5 h-5 text-yellow-400" />,
-          badgeClass: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-        };
-      default:
-        return {
-          title: "Geography Challenge",
-          icon: <HelpCircle className="w-5 h-5 text-slate-400" />,
-          badgeClass: "bg-slate-500/20 text-slate-300 border-slate-500/30"
-        };
-    }
-  };
-
-  const { title, icon, badgeClass } = getCategoryDetails(question.category);
+  const title = question.topic || "Geography Challenge";
+  const icon = <BookOpen className="w-5 h-5 text-violet-400" />;
+  const badgeClass = "bg-violet-500/20 text-violet-300 border-violet-500/30";
 
   return (
     /* ── Expansive frosted backdrop ──────────────────── */
@@ -209,22 +181,27 @@ export default function CardModal({ question, player, onClose, spaceName }) {
           {/* ── Post-answer: Incorrect → educational reinforcement ── */}
           {isAnswered && !isCorrect && (
             <div className="border-t border-rose-800/40 pt-4 mt-3 animate-slide-up">
-              <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/40">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-extrabold uppercase px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300">
+              <div className="p-5 rounded-xl bg-slate-900 border-2 border-rose-500/40 shadow-inner">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-black uppercase px-2.5 py-1 rounded-md bg-rose-500 text-white shadow-lg shadow-rose-500/30">
                     Incorrect (+0 GKP)
                   </span>
                 </div>
 
-                <div className="flex items-start gap-2 mt-3 p-3 rounded-lg bg-emerald-950/15 border border-emerald-800/25">
-                  <BookOpen className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider mb-1">
-                      Educational Reinforcement
-                    </h4>
-                    <p className="text-sm text-slate-200 leading-relaxed font-semibold">
-                      {question.correctAnswer}
-                    </p>
+                <div className="mt-4 p-4 rounded-xl bg-emerald-950/40 border border-emerald-500/40 shadow-lg relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                  <div className="flex items-start gap-3 relative z-10">
+                    <div className="bg-emerald-500/20 p-2 rounded-lg border border-emerald-500/30 shrink-0">
+                      <BookOpen className="w-6 h-6 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-1.5">
+                        Textbook Explanation
+                      </h4>
+                      <p className="text-base text-white leading-relaxed font-medium">
+                        {question.correctAnswer}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

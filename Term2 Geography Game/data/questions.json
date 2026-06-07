@@ -1,175 +1,81 @@
 [
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "Define the term flora.",
-    "statement": "Define the term flora.",
-    "options": ["Animals", "Plants", "Rock formations", "Waterways"],
-    "correctAnswer": "Plants",
-    "pointsValue": 10
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "What conditions cause a population's Natural Increase to occur?",
-    "statement": "What conditions cause a population's Natural Increase to occur?",
-    "options": [
-      "When the number of births exceeds the number of deaths",
-      "When net migration exceeds local deaths",
-      "When infant mortality rates drop to zero",
-      "When life expectancy exceeds 80 years"
-    ],
-    "correctAnswer": "When the number of births exceeds the number of deaths",
-    "pointsValue": 10
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "State a main cause for the sharp decline of the Māori population in the 1800s.",
-    "statement": "State a main cause for the sharp decline of the Māori population in the 1800s.",
-    "options": [
-      "Large-scale emigration to Australia and other Pacific Islands",
-      "A massive volcanic eruption in Lake Taupō destroying crops",
-      "Inter-tribal warfare (Musket Wars) or a lack of immunity to European diseases like measles",
-      "Severe famines caused by sudden, prolonged regional cooling"
-    ],
-    "correctAnswer": "Inter-tribal warfare (Musket Wars) or a lack of immunity to European diseases like measles",
-    "pointsValue": 20
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "What major factor caused the second wave of European migration to NZ in the 1800s?",
-    "statement": "What major factor caused the second wave of European migration to NZ in the 1800s?",
-    "options": [
-      "The start of World War I",
-      "The discovery of gold/gold rushes",
-      "Assisted industrial schemes under Colonial Treasurer Julius Vogel",
-      "A search for warmer agricultural climates"
-    ],
-    "correctAnswer": "The discovery of gold/gold rushes",
-    "pointsValue": 10
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "What factor drove the third wave of European migration in the 1870s?",
-    "statement": "What factor drove the third wave of European migration in the 1870s?",
-    "options": [
-      "The arrival of early whalers and sealers looking for resources",
-      "Assisted immigration schemes implemented under Colonial Treasurer Julius Vogel",
-      "The discovery of gold in Otago",
-      "The signing of the Treaty of Waitangi"
-    ],
-    "correctAnswer": "Assisted immigration schemes implemented under Colonial Treasurer Julius Vogel",
-    "pointsValue": 20
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "Why did the NZ government start accepting high migration volumes from Pacific Islands in the 1960s?",
-    "statement": "Why did the NZ government start accepting high migration volumes from Pacific Islands in the 1960s?",
-    "options": [
-      "A severe shortage of unskilled labor/workers in rapidly expanding manufacturing industries",
-      "To fulfill regional tourism quotas and cultural exchange programs",
-      "Due to severe climate and humanitarian crises in the Pacific region",
-      "To satisfy agricultural agreements for sheep farming"
-    ],
-    "correctAnswer": "A severe shortage of unskilled labor/workers in rapidly expanding manufacturing industries",
-    "pointsValue": 20
-  },
-  {
-    "category": "LEES_PUSH_PULL",
-    "question": "According to 2018 census statistics, what percentage of New Zealand's population resides in urban areas vs rural environments?",
-    "statement": "According to 2018 census statistics, what percentage of New Zealand's population resides in urban areas vs rural environments?",
-    "options": [
-      "50.0% Urban, 50.0% Rural",
-      "72.4% Urban, 27.6% Rural",
-      "86.5% Urban, 13.5% Rural",
-      "95.2% Urban, 4.8% Rural"
-    ],
-    "correctAnswer": "86.5% Urban, 13.5% Rural",
-    "pointsValue": 10
-  },
-  {
-    "category": "TECTONIC_RING_OF_FIRE",
-    "question": "Name the 3 core geological agents of erosion.",
-    "statement": "Name the 3 core geological agents of erosion.",
-    "options": [
-      "Tectonic plates, earthquakes, and volcanic eruptions",
-      "Ice (glaciers), wind, and water (rivers/waves)",
-      "Sunlight, plant roots, and burrowing animals",
-      "Chemical weathering, oxidation, and deposition"
-    ],
-    "correctAnswer": "Ice (glaciers), wind, and water (rivers/waves)",
-    "pointsValue": 10
-  },
-  {
-    "category": "TECTONIC_RING_OF_FIRE",
-    "question": "What dominant relief type covers roughly 49% of New Zealand's total land area?",
-    "statement": "What dominant relief type covers roughly 49% of New Zealand's total land area?",
-    "options": ["Plains", "Plateauland", "Mountains", "Sand dunes"],
-    "correctAnswer": "Mountains",
-    "pointsValue": 10
-  },
-  {
-    "category": "TECTONIC_RING_OF_FIRE",
-    "question": "What type of plate boundary is found directly beneath the North Island of NZ?",
-    "statement": "What type of plate boundary is found directly beneath the North Island of NZ?",
-    "options": [
-      "A constructive, divergent plate boundary",
-      "A conservative, transform plate boundary",
-      "A destructive, subduction plate boundary",
-      "A passive, intraplate hot spot boundary"
-    ],
-    "correctAnswer": "A destructive, subduction plate boundary",
-    "pointsValue": 10
-  },
-  {
-    "category": "TECTONIC_RING_OF_FIRE",
-    "question": "Describe the specific crustal interactions occurring along the North Island plate boundary.",
-    "statement": "Describe the specific crustal interactions occurring along the North Island plate boundary.",
-    "options": [
-      "Two plates pull apart, causing magma to rise and create new oceanic crust in a central valley",
-      "The denser oceanic crust (Pacific Plate) collides and subducts underneath the lighter continental crust (Australian Plate), melting in the mantle to form active volcanoes",
-      "The plates slide past each other horizontally along the alpine fault zone, generating strike-slip earthquakes",
-      "The continental crust folds upward to form the Southern Alps without any subduction or volcanic activity"
-    ],
-    "correctAnswer": "The denser oceanic crust (Pacific Plate) collides and subducts underneath the lighter continental crust (Australian Plate), melting in the mantle to form active volcanoes",
-    "pointsValue": 20
-  },
-  {
-    "category": "TECTONIC_RING_OF_FIRE",
-    "question": "What is the name of the highly significant strike-slip fault system cutting across the South Island landscape?",
-    "statement": "What is the name of the highly significant strike-slip fault system cutting across the South Island landscape?",
-    "options": ["The Wellington Fault", "The Alpine Fault", "The Hope Fault", "The Kermadec Trench"],
-    "correctAnswer": "The Alpine Fault",
-    "pointsValue": 10
-  },
-  {
-    "category": "TRUE_OR_FALSE",
-    "question": "Statement: Te Waka a Māui is the traditional Māori term for the North Island.",
-    "statement": "Te Waka a Māui is the traditional Māori term for the North Island.",
-    "options": ["True", "False"],
-    "correctAnswer": "False",
-    "pointsValue": 10
-  },
-  {
-    "category": "TRUE_OR_FALSE",
-    "question": "Statement: Approximately 77% of New Zealand's modern population resides within the South Island.",
-    "statement": "Approximately 77% of New Zealand's modern population resides within the South Island.",
-    "options": ["True", "False"],
-    "correctAnswer": "False",
-    "pointsValue": 10
-  },
-  {
-    "category": "TRUE_OR_FALSE",
-    "question": "Statement: As massive glaciers move and erode mountain landscapes, they slice out distinct V-shaped valleys.",
-    "statement": "As massive glaciers move and erode mountain landscapes, they slice out distinct V-shaped valleys.",
-    "options": ["True", "False"],
-    "correctAnswer": "False",
-    "pointsValue": 10
-  },
-  {
-    "category": "TRUE_OR_FALSE",
-    "question": "Statement: As your altitude steadily climbs higher up a mountain, regional vegetation typically grows taller and denser.",
-    "statement": "As your altitude steadily climbs higher up a mountain, regional vegetation typically grows taller and denser.",
-    "options": ["True", "False"],
-    "correctAnswer": "False",
-    "pointsValue": 10
-  }
+  { "tileId": 1, "topic": "Definitions & Basics", "question": "Define the term \"flora\".", "options": ["Plant life", "Animal life", "Soil types", "Atmospheric gases"], "correctAnswer": "Plant life", "pointsValue": 10 },
+  { "tileId": 1, "topic": "Definitions & Basics", "question": "Define the term \"fauna\".", "options": ["Plant life", "Bird and animal life", "Rock formations", "Water features"], "correctAnswer": "Bird and animal life", "pointsValue": 10 },
+  { "tileId": 1, "topic": "Definitions & Basics", "question": "The term Geography originates from \"Geo\" and \"Graphy\". What is its description?", "options": ["Mapping patterns on Earth", "Studying outer space", "Analyzing historical wars", "Counting populations"], "correctAnswer": "Mapping patterns on Earth", "pointsValue": 10 },
+
+  { "tileId": 2, "topic": "NZ Rainfall Patterns", "question": "In the South Island of NZ, which coast receives higher annual rainfall?", "options": ["West Coast", "East Coast", "Both receive equal rainfall", "Neither receives rain"], "correctAnswer": "West Coast", "pointsValue": 10 },
+  { "tileId": 2, "topic": "NZ Rainfall Patterns", "question": "Winds approaching New Zealand most commonly arrive from which direction?", "options": ["North-East", "South-East", "West / South-West", "North-West"], "correctAnswer": "West / South-West", "pointsValue": 10 },
+  { "tileId": 2, "topic": "NZ Rainfall Patterns", "question": "What water body does moisture evaporate over before blowing across New Zealand?", "options": ["Pacific Ocean", "Tasman Sea", "Cook Strait", "Atlantic Ocean"], "correctAnswer": "Tasman Sea", "pointsValue": 10 },
+
+  { "tileId": 3, "topic": "Volcanic & Geological Features", "question": "Which island in New Zealand consists of active or possibly active volcanoes at present?", "options": ["South Island", "North Island", "Stewart Island", "Chatham Islands"], "correctAnswer": "North Island", "pointsValue": 10 },
+  { "tileId": 3, "topic": "Volcanic & Geological Features", "question": "New Zealand sits directly on a long line of volcanoes extending around the Pacific Plate known as what?", "options": ["The Subduction Line", "The Alpine Ridge", "The Pacific Ring of Fire", "The Tectonic Crest"], "correctAnswer": "The Pacific Ring of Fire", "pointsValue": 10 },
+  { "tileId": 3, "topic": "Volcanic & Geological Features", "question": "Which central North Island landmark is a large volcanic depression (caldera) partly filled by water?", "options": ["Mt Ruapehu", "Lake Taupo", "Mt Tongariro", "Lake Wakatipu"], "correctAnswer": "Lake Taupo", "pointsValue": 10 },
+
+  { "tileId": 4, "topic": "Demographic Processes", "question": "When studying population statistics, under what exact conditions does \"natural increase\" occur?", "options": ["Deaths are higher than births", "Births are higher than deaths", "Immigrants equal emigrants", "Rural migration outpaces urban growth"], "correctAnswer": "Births are higher than deaths", "pointsValue": 10 },
+  { "tileId": 4, "topic": "Demographic Processes", "question": "What refers to a subtraction from a population?", "options": ["Births", "Immigrants", "Deaths", "Pull factors"], "correctAnswer": "Deaths", "pointsValue": 10 },
+  { "tileId": 4, "topic": "Demographic Processes", "question": "What describes a population change where deaths exceed births?", "options": ["Natural Increase", "Net Migration Gain", "Natural Decrease", "Intervening Obstacle"], "correctAnswer": "Natural Decrease", "pointsValue": 10 },
+
+  { "tileId": 5, "topic": "Historical Māori Demographics", "question": "What was a primary reason for the rapid decrease of the Māori population in the 1800s?", "options": ["Mass emigration to Australia", "Inter-tribal warfare using muskets", "Industrial pollution in cities", "Frost damage to crops"], "correctAnswer": "Inter-tribal warfare using muskets", "pointsValue": 10 },
+  { "tileId": 5, "topic": "Historical Māori Demographics", "question": "Why did introduced European diseases like measles decimate the Māori population in the 1800s?", "options": ["A total lack of immunity", "Poor soil nutrients", "High altitude living", "Lack of fresh coastal water"], "correctAnswer": "A total lack of immunity", "pointsValue": 10 },
+  { "tileId": 5, "topic": "Historical Māori Demographics", "question": "To what low number did the Māori population drop by its historical turning point in the early 1890s?", "options": ["Around 100,000", "Around 150,000", "Around 43,000", "Around 12,000"], "correctAnswer": "Around 43,000", "pointsValue": 10 },
+
+  { "tileId": 6, "topic": "Agents of Erosion", "question": "Which of the following is considered one of the three main agents of erosion?", "options": ["Lava", "Magma", "Ice or glaciers", "Earthquakes"], "correctAnswer": "Ice or glaciers", "pointsValue": 10 },
+  { "tileId": 6, "topic": "Agents of Erosion", "question": "What force causes water to move downhill towards the sea, driving river erosion?", "options": ["Subduction", "Convection currents", "Gravity", "Latitude"], "correctAnswer": "Gravity", "pointsValue": 10 },
+  { "tileId": 6, "topic": "Agents of Erosion", "question": "What term describes the wearing down and picking up of sediments from the earth's surface?", "options": ["Deposition", "Transportation", "Erosion", "Folding"], "correctAnswer": "Erosion", "pointsValue": 10 },
+
+  { "tileId": 7, "topic": "European Migration Waves", "question": "The first major wave of European migration to NZ in the 1840s was caused by which organized entity?", "options": ["The Dutch East India Company", "The Royal Geographic Society", "The New Zealand Company", "Julius Vogel Agents"], "correctAnswer": "The New Zealand Company", "pointsValue": 10 },
+  { "tileId": 7, "topic": "European Migration Waves", "question": "What major historical event caused the second wave of European migration to NZ in the 1860s?", "options": ["The Industrial Revolution", "The discovery of gold/gold rush", "A severe UK farming famine", "The signing of the Treaty of Waitangi"], "correctAnswer": "The discovery of gold/gold rush", "pointsValue": 10 },
+  { "tileId": 7, "topic": "European Migration Waves", "question": "What caused the massive migration surge to New Zealand in the 1870s?", "options": ["Assisted immigration schemes under Julius Vogel", "The outbreak of the Musket Wars", "Sinking land bridges in Asia", "Severe volcanic eruptions in Auckland"], "correctAnswer": "Assisted immigration schemes under Julius Vogel", "pointsValue": 10 },
+
+  { "tileId": 8, "topic": "Pacific Island Immigration", "question": "Why did the New Zealand Government actively start accepting migrants from Pacific islands in the 1960s?", "options": ["A severe shortage of unskilled labor in manufacturing", "Severe volcanic activity in Samoa", "Rising sea levels over land bridges", "High gold yields in Auckland"], "correctAnswer": "A severe shortage of unskilled labor in manufacturing", "pointsValue": 10 },
+  { "tileId": 8, "topic": "Pacific Island Immigration", "question": "What political reasoning post-WW2 motivated accepting Pacific migrants from places like Samoa and Niue?", "options": ["Fulfilling mining leases", "Assisting poorer Pacific Island nations", "Expanding commercial pine logging", "Lowering urban population density"], "correctAnswer": "Assisting poorer Pacific Island nations", "pointsValue": 10 },
+  { "tileId": 8, "topic": "Pacific Island Immigration", "question": "In what decade did the New Zealand Government shift from accepting migrants almost exclusively from Europe to accepting Pacific Islanders?", "options": ["1880s", "1920s", "1960s", "1990s"], "correctAnswer": "1960s", "pointsValue": 10 },
+
+  { "tileId": 9, "topic": "Traditional Māori Toponymy", "question": "What is the traditional Māori term for the South Island?", "options": ["Te Ika a Māui", "Te Waka a Māui", "Aotearoa", "Rakiura"], "correctAnswer": "Te Waka a Māui", "pointsValue": 10 },
+  { "tileId": 9, "topic": "Traditional Māori Toponymy", "question": "What is the traditional Māori term for the North Island, meaning \"Māui's Fish\"?", "options": ["Te Waka a Māui", "Te Ika a Māui", "Te Punga a Māui", "Hawaiki"], "correctAnswer": "Te Ika a Māui", "pointsValue": 10 },
+  { "tileId": 9, "topic": "Traditional Māori Toponymy", "question": "According to South Island legend, what does Stewart Island (Rakiura) represent?", "options": ["Māui's Fishhook", "Māui's Canoe", "Māui's Anchor Stone / Te Punga a Māui", "Māui's Backbone"], "correctAnswer": "Māui's Anchor Stone / Te Punga a Māui", "pointsValue": 10 },
+
+  { "tileId": 10, "topic": "NZ Relief Features", "question": "What type of relief landform is the most dominant in New Zealand, covering 49% of the total land area?", "options": ["Plains", "Mountains", "Plateaus", "Easy Hill Country"], "correctAnswer": "Mountains", "pointsValue": 10 },
+  { "tileId": 10, "topic": "NZ Relief Features", "question": "What total percentage of New Zealand's land area is classified as either mountains or rough hill country?", "options": ["8%", "23%", "55%", "74%"], "correctAnswer": "74%", "pointsValue": 10 },
+  { "tileId": 10, "topic": "NZ Relief Features", "question": "Geographers use what specific term to refer to the height and shape of the land?", "options": ["Latitude", "Biome", "Relief", "Process"], "correctAnswer": "Relief", "pointsValue": 10 },
+
+  { "tileId": 11, "topic": "Demographic Distribution", "question": "True or False: Approximately 77% of New Zealand's population lives in the South Island.", "options": ["True", "False"], "correctAnswer": "False", "pointsValue": 10 },
+  { "tileId": 11, "topic": "Demographic Distribution", "question": "What percentage of New Zealand's modern population lives within the North Island due to historical drift?", "options": ["23%", "49%", "77%", "86.5%"], "correctAnswer": "77%", "pointsValue": 10 },
+  { "tileId": 11, "topic": "Demographic Distribution", "question": "Why did early European settlers initially prefer settling in the South Island over the North Island prior to 1900?", "options": ["High gold discoveries and open natural grasslands", "Active volcanoes for tourism", "Dense native rainforest cover", "Warmer winter temperatures"], "correctAnswer": "High gold discoveries and open natural grasslands", "pointsValue": 10 },
+
+  { "tileId": 12, "topic": "Glacial Geomorphology", "question": "True or False: As glaciers erode mountain landscapes, they form deep V-shaped valleys.", "options": ["True", "False"], "correctAnswer": "False", "pointsValue": 10 },
+  { "tileId": 12, "topic": "Glacial Geomorphology", "question": "What steep-sided structural valley feature is carved out explicitly by the action of moving glaciers?", "options": ["V-shaped valley", "U-shaped valley", "Fault line furrow", "Convection trench"], "correctAnswer": "U-shaped valley", "pointsValue": 10 },
+  { "tileId": 12, "topic": "Glacial Geomorphology", "question": "What long, narrow South Island lakes (e.g., Lake Wakatipu) occupy deep glacial valleys?", "options": ["Caldera lakes", "Finger lakes", "Floodplain lagoons", "Estuary reservoirs"], "correctAnswer": "Finger lakes", "pointsValue": 10 },
+
+  { "tileId": 13, "topic": "Urbanization Trends", "question": "True or False: The percentage of people living in rural areas of New Zealand has steadily decreased since 1881.", "options": ["True", "False"], "correctAnswer": "True", "pointsValue": 10 },
+  { "tileId": 13, "topic": "Urbanization Trends", "question": "What precise percentage of New Zealand's modern population lives concentrated within towns and urban cities?", "options": ["13.5%", "23%", "74%", "86.5%"], "correctAnswer": "86.5%", "pointsValue": 10 },
+  { "tileId": 13, "topic": "Urbanization Trends", "question": "What percentage of New Zealand's population continues to reside in rural environments today?", "options": ["8%", "13.5%", "55%", "86.5%"], "correctAnswer": "13.5%", "pointsValue": 10 },
+
+  { "tileId": 14, "topic": "Altitude & Microclimates", "question": "With an increase in altitude, regional vegetation structural patterns will progressively get:", "options": ["Shorter and denser", "Taller and sparser", "Taller and denser", "Shorter and sparser"], "correctAnswer": "Shorter and sparser", "pointsValue": 10 },
+  { "tileId": 14, "topic": "Altitude & Microclimates", "question": "Why does air temperature drop consistently by roughly 1°C for every 100 meters you climb up a landform?", "options": ["The air gets thinner with fewer gas molecules to absorb and trap solar heat", "Sinking air masses release moisture", "High ocean proximity blocks wind", "Convection currents operate in reverse"], "correctAnswer": "The air gets thinner with fewer gas molecules to absorb and trap solar heat", "pointsValue": 10 },
+  { "tileId": 14, "topic": "Altitude & Microclimates", "question": "What vegetation ecosystem layer dominates high mountain elevations right before reaching barren rock lines where it is too cold for growth?", "options": ["Towering canopy forest", "Dense tropical scrub", "Alpine tussock grasses, herbs, and mosses", "Broadleaf native forest"], "correctAnswer": "Alpine tussock grasses, herbs, and mosses", "pointsValue": 10 },
+
+  { "tileId": 15, "topic": "Migration Dynamics", "question": "In geographic migration models, something which acts as an obstacle or can stop a person from migrating is called:", "options": ["An intervening obstacle", "A push factor", "A pull factor", "An origin variable"], "correctAnswer": "An intervening obstacle", "pointsValue": 10 },
+  { "tileId": 15, "topic": "Migration Dynamics", "question": "In migration theory, harsh working conditions and low pay in your place of origin are classified as:", "options": ["Pull factors", "Intervening obstacles", "Push factors", "Destination assets"], "correctAnswer": "Push factors", "pointsValue": 10 },
+  { "tileId": 15, "topic": "Migration Dynamics", "question": "What migration term defines the total number of incoming immigrants minus outgoing emigrants?", "options": ["Natural Increase", "Net Migration", "Absolute Census", "Spatial Interaction"], "correctAnswer": "Net Migration", "pointsValue": 10 },
+
+  { "tileId": 16, "topic": "Climate Variables — Auckland", "question": "While latitude keeps northern New Zealand warm, what specific climatic factor gives Auckland city its uniquely mild winters and warm summers?", "options": ["High altitude", "Close distance from the sea / ocean moderation", "Alpine fault line heating", "Dense commercial pine forests"], "correctAnswer": "Close distance from the sea / ocean moderation", "pointsValue": 10 },
+  { "tileId": 16, "topic": "Climate Variables — Auckland", "question": "Coastal landmasses experience a small difference between their highest and lowest seasonal temperatures, which is known as a small what?", "options": ["Convection track", "Subduction dip", "Temperature range", "Orographic drop"], "correctAnswer": "Temperature range", "pointsValue": 10 },
+  { "tileId": 16, "topic": "Climate Variables — Auckland", "question": "Places located deep inland, well away from the sea in the middle of massive continents, experience what temperature characteristic?", "options": ["A completely stable uniform climate", "A small temperature range", "A great temperature range between summer and winter", "Continuous tropical wet conditions"], "correctAnswer": "A great temperature range between summer and winter", "pointsValue": 10 },
+
+  { "tileId": 17, "topic": "Climate Variables — Mt Cook", "question": "What critical climatic factor causes Aoraki/Mt Cook to remain intensely cold and glaciated all year round?", "options": ["Low latitude position", "High altitude / mountain relief", "Great distance from the sea", "Hot spot activity directly underneath"], "correctAnswer": "High altitude / mountain relief", "pointsValue": 10 },
+  { "tileId": 17, "topic": "Climate Variables — Mt Cook", "question": "What is the altitude height requirement for a New Zealand landform to be officially categorized as a mountain?", "options": ["Over 200 meters", "Under 500 meters", "Less than 1000 meters", "Over 1000 meters in elevation"], "correctAnswer": "Over 1000 meters in elevation", "pointsValue": 10 },
+  { "tileId": 17, "topic": "Climate Variables — Mt Cook", "question": "What is New Zealand's absolute highest mountain peak, sitting at an elevation of 3,754 meters?", "options": ["Mt Ruapehu", "Mt Taranaki", "Aoraki/Mt Cook", "Mt Tongariro"], "correctAnswer": "Aoraki/Mt Cook", "pointsValue": 10 },
+
+  { "tileId": 18, "topic": "Tectonic Mechanics", "question": "Off the east coast of the North Island, what specific action occurs as the dense Pacific plate collides with the lighter Australian plate?", "options": ["The plates slide perfectly side-by-side along a flat fault line", "The oceanic Pacific plate subducts and sinks deep underneath the continental crust", "The plates pull directly apart to create a mid-ocean ridge", "No interaction occurs due to micro-continental buffers"], "correctAnswer": "The oceanic Pacific plate subducts and sinks deep underneath the continental crust", "pointsValue": 10 },
+  { "tileId": 18, "topic": "Tectonic Mechanics", "question": "What deep, subterranean process causes tectonic plates to move together, apart, or slide past each other along boundaries?", "options": ["Orographic lift", "Convection currents operating inside the earth's molten mantle", "Glacial accumulation pressures", "High-intensity tidal erosion forces"], "correctAnswer": "Convection currents operating inside the earth's molten mantle", "pointsValue": 10 },
+  { "tileId": 18, "topic": "Tectonic Mechanics", "question": "What section of the tectonic plate boundary runs directly through the South Island, causing sideways shearing and alpine folding?", "options": ["The Hikurangi Trench", "The Volcanic Plateau Margin", "The Alpine Fault", "The Pacific Ring furrows"], "correctAnswer": "The Alpine Fault", "pointsValue": 10 },
+
+  { "tileId": 19, "topic": "Orographic Mechanics & Wind", "question": "What specific term describes rainfall produced when warm, moist air is forced to rise up and over a mountain range?", "options": ["Convectional rainfall", "Orographic rainfall", "Frontal precipitation", "Subduction downpour"], "correctAnswer": "Orographic rainfall", "pointsValue": 10 },
+  { "tileId": 19, "topic": "Orographic Mechanics & Wind", "question": "What describes the dry, low-rainfall climatic environment created on the leeward side of a major mountain range?", "options": ["A convection bubble", "A rain shadow area", "A fohn corridor", "A subductive basin"], "correctAnswer": "A rain shadow area", "pointsValue": 10 },
+  { "tileId": 19, "topic": "Orographic Mechanics & Wind", "question": "What is the local name given to the strong, dry, warm descending wind that frequently blows across the Canterbury Plains after crossing the Southern Alps?", "options": ["The Southerly Buster", "The Ring of Fire gale", "A typical fohn wind / 'norwester'", "The Subductive draft"], "correctAnswer": "A typical fohn wind / 'norwester'", "pointsValue": 10 },
+
+  { "tileId": 20, "topic": "Migration Data Analysis", "question": "According to historical net migration data sheets, in what specific year did New Zealand hit its absolute highest positive net migration gain?", "options": ["1973", "1980", "2010", "2019"], "correctAnswer": "2019", "pointsValue": 10 },
+  { "tileId": 20, "topic": "Migration Data Analysis", "question": "If the net migration bar for a specific year (such as 2010) is completely missing from a graph, what does it mean?", "options": ["No census data was recorded by the government", "There was an equal number of people leaving the country as arriving", "Emigration dropped to absolute zero", "Immigration was completely banned"], "correctAnswer": "There was an equal number of people leaving the country as arriving", "pointsValue": 10 },
+  { "tileId": 20, "topic": "Migration Data Analysis", "question": "What fundamental causal relationship governs New Zealand's fluctuating net migration trends?", "options": ["When the NZ economy is performing well and growing, we experience a net migration gain; when it struggles, we lose population as people move to Australia", "Volcanoes drive people north", "Glacier growth blocks incoming shipping lanes", "Rural farming demand forces people to emigrate overseas"], "correctAnswer": "When the NZ economy is performing well and growing, we experience a net migration gain; when it struggles, we lose population as people move to Australia", "pointsValue": 10 }
 ]
